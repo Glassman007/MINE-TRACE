@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" fill="none">
+  <defs>
+    <linearGradient id="yellow" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFD84A"/>
+      <stop offset="0.55" stop-color="#F7B71E"/>
+      <stop offset="1" stop-color="#E2920B"/>
+    </linearGradient>
+    <linearGradient id="yellowDark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#E8A30E"/>
+      <stop offset="1" stop-color="#B96A00"/>
+    </linearGradient>
+    <linearGradient id="steel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#65717D"/>
+      <stop offset="1" stop-color="#2E353C"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#BFE8F5" stop-opacity="0.9"/>
+      <stop offset="0.55" stop-color="#6A96A8" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#283E49" stop-opacity="0.95"/>
+    </linearGradient>
+  </defs>
+
+  <!-- rear counterweight / upper body -->
+  <g>
+    <path d="M425 338 C430 302 447 278 485 263 L650 244 C698 239 736 267 748 311 L757 397 L429 397 Z"
+          fill="url(#yellow)" stroke="#6A4A07" stroke-width="7" stroke-linejoin="round"/>
+    <path d="M425 338 C392 340 371 359 365 391 L364 424 L495 424 L499 385 C497 355 475 338 425 338 Z"
+          fill="url(#yellowDark)" stroke="#6A4A07" stroke-width="7"/>
+
+    <!-- engine panel -->
+    <path d="M477 292 L627 274 C655 271 674 283 681 308 L694 366 L476 366 Z"
+          fill="#ECAA18" stroke="#87580A" stroke-width="5"/>
+    <path d="M506 305 L650 290" stroke="#8A5B0A" stroke-width="5" stroke-linecap="round"/>
+    <path d="M507 323 L657 308" stroke="#8A5B0A" stroke-width="5" stroke-linecap="round"/>
+    <path d="M508 341 L664 325" stroke="#8A5B0A" stroke-width="5" stroke-linecap="round"/>
+
+    <!-- cabin -->
+    <path d="M669 245 L756 248 L826 321 L828 397 L705 397 L689 329 Z"
+          fill="url(#yellow)" stroke="#6A4A07" stroke-width="7" stroke-linejoin="round"/>
+    <path d="M696 263 L751 266 L803 322 L806 351 L711 351 L699 317 Z"
+          fill="url(#glass)" stroke="#28363E" stroke-width="6" stroke-linejoin="round"/>
+    <path d="M754 268 L754 350" stroke="#28363E" stroke-width="6"/>
+    <path d="M711 351 L705 392" stroke="#7B5208" stroke-width="5"/>
+
+    <!-- handrail -->
+    <path d="M732 235 L817 236 L853 276" stroke="#3D4246" stroke-width="6" stroke-linecap="round"/>
+    <path d="M817 236 L818 285" stroke="#3D4246" stroke-width="6"/>
+
+    <!-- undercarriage frame -->
+    <path d="M355 406 L780 406 L821 455 L310 455 Z" fill="#4A5056" stroke="#272B2F" stroke-width="8"/>
+    <rect x="443" y="387" width="226" height="43" rx="12" fill="#5E666D" stroke="#2B3034" stroke-width="7"/>
+    <circle cx="555" cy="409" r="37" fill="#3A4045" stroke="#1F2427" stroke-width="7"/>
+    <circle cx="555" cy="409" r="13" fill="#848D95"/>
+  </g>
+
+  <!-- boom assembly -->
+  <g>
+    <path d="M744 293 C790 255 845 209 894 163 C919 140 950 126 978 129 L1001 150 C958 180 914 226 880 267 L822 342 L780 337 Z"
+          fill="url(#yellow)" stroke="#6A4A07" stroke-width="8" stroke-linejoin="round"/>
+    <path d="M968 139 C1015 159 1042 186 1050 229 L1067 332 L1023 341 L1002 248 C997 222 982 201 952 188 Z"
+          fill="url(#yellowDark)" stroke="#6A4A07" stroke-width="8" stroke-linejoin="round"/>
+
+    <!-- bucket linkage -->
+    <path d="M1047 219 L1106 337" stroke="#4B5055" stroke-width="15" stroke-linecap="round"/>
+    <path d="M1005 177 L1045 218" stroke="#858E95" stroke-width="10" stroke-linecap="round"/>
+    <circle cx="1047" cy="219" r="10" fill="#AEB5BA" stroke="#30353A" stroke-width="5"/>
+    <circle cx="1106" cy="337" r="10" fill="#AEB5BA" stroke="#30353A" stroke-width="5"/>
+
+    <!-- hydraulic cylinders -->
+    <path d="M766 321 L908 181" stroke="#3C4247" stroke-width="17" stroke-linecap="round"/>
+    <path d="M774 314 L899 191" stroke="#B7BEC3" stroke-width="8" stroke-linecap="round"/>
+    <circle cx="768" cy="321" r="11" fill="#C8CDD1" stroke="#34393E" stroke-width="5"/>
+    <circle cx="907" cy="181" r="11" fill="#C8CDD1" stroke="#34393E" stroke-width="5"/>
+
+    <path d="M933 168 L1018 278" stroke="#3C4247" stroke-width="15" stroke-linecap="round"/>
+    <path d="M941 177 L1011 269" stroke="#C6CCD0" stroke-width="7" stroke-linecap="round"/>
+
+    <!-- bucket -->
+    <path d="M1060 322 C1098 315 1132 323 1150 350 C1169 378 1163 418 1140 446 C1116 475 1077 488 1031 482 L1008 443 C1047 444 1079 431 1098 410 C1110 396 1115 375 1105 357 C1095 341 1078 334 1056 337 Z"
+          fill="url(#yellowDark)" stroke="#6A4A07" stroke-width="8" stroke-linejoin="round"/>
+    <path d="M1029 482 L1017 505 L1049 507 L1063 486" fill="#B96A00" stroke="#6A4A07" stroke-width="6"/>
+    <path d="M1071 481 L1063 507 L1095 504 L1105 475" fill="#B96A00" stroke="#6A4A07" stroke-width="6"/>
+    <path d="M1114 465 L1110 495 L1141 486 L1148 451" fill="#B96A00" stroke="#6A4A07" stroke-width="6"/>
+  </g>
+
+  <!-- tracks -->
+  <g>
+    <path d="M275 450 C286 421 313 406 347 406 L734 406 C770 406 797 421 812 450 L850 527 C862 554 845 579 813 584 L299 584 C267 582 249 559 260 531 Z"
+          fill="#252A2F" stroke="#111416" stroke-width="9"/>
+    <path d="M319 439 L745 439 C770 439 785 450 796 472 L826 529 C834 546 822 558 805 558 L301 558 C283 558 271 545 279 529 L303 475 C311 454 320 441 319 439 Z"
+          fill="url(#steel)" stroke="#555E66" stroke-width="5"/>
+
+    <!-- track rollers -->
+    <circle cx="338" cy="517" r="40" fill="#2A3035" stroke="#7B858E" stroke-width="6"/>
+    <circle cx="338" cy="517" r="20" fill="#6A747C"/>
+    <circle cx="753" cy="517" r="40" fill="#2A3035" stroke="#7B858E" stroke-width="6"/>
+    <circle cx="753" cy="517" r="20" fill="#6A747C"/>
+    <circle cx="425" cy="526" r="27" fill="#262C31" stroke="#7B858E" stroke-width="5"/>
+    <circle cx="498" cy="526" r="27" fill="#262C31" stroke="#7B858E" stroke-width="5"/>
+    <circle cx="571" cy="526" r="27" fill="#262C31" stroke="#7B858E" stroke-width="5"/>
+    <circle cx="644" cy="526" r="27" fill="#262C31" stroke="#7B858E" stroke-width="5"/>
+
+    <!-- tread details -->
+    <path d="M286 475 H811" stroke="#89939C" stroke-width="5" stroke-dasharray="24 14" stroke-linecap="round"/>
+    <path d="M288 556 H812" stroke="#89939C" stroke-width="5" stroke-dasharray="24 14" stroke-linecap="round"/>
+  </g>
+
+  <!-- details -->
+  <g>
+    <path d="M390 413 L417 413" stroke="#C7CDD1" stroke-width="6" stroke-linecap="round"/>
+    <path d="M404 400 L404 426" stroke="#C7CDD1" stroke-width="6" stroke-linecap="round"/>
+    <rect x="457" y="370" width="58" height="15" rx="7.5" fill="#D47D08"/>
+    <circle cx="785" cy="371" r="8" fill="#D7F6FF" stroke="#2C353A" stroke-width="4"/>
+    <path d="M819 342 L838 363" stroke="#20262A" stroke-width="6" stroke-linecap="round"/>
+  </g>
+</svg>

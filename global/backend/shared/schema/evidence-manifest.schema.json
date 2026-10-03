@@ -1,0 +1,143 @@
+{
+  "$defs": {
+    "EvidenceManifestEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "canonical_event_type": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Canonical Event Type",
+          "type": "string"
+        },
+        "canonical_payload": {
+          "additionalProperties": true,
+          "title": "Canonical Payload",
+          "type": "object"
+        },
+        "component_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Component Id"
+        },
+        "evidence_checksum": {
+          "anyOf": [
+            {
+              "maxLength": 255,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evidence Checksum"
+        },
+        "evidence_id": {
+          "format": "uuid",
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "incident_ids": {
+          "items": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "title": "Incident Ids",
+          "type": "array"
+        },
+        "original_source_record_id": {
+          "anyOf": [
+            {
+              "maxLength": 255,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Original Source Record Id"
+        },
+        "original_timestamp": {
+          "format": "date-time",
+          "title": "Original Timestamp",
+          "type": "string"
+        },
+        "provenance": {
+          "additionalProperties": true,
+          "title": "Provenance",
+          "type": "object"
+        },
+        "session_id": {
+          "format": "uuid",
+          "title": "Session Id",
+          "type": "string"
+        },
+        "source_machine_id": {
+          "format": "uuid",
+          "title": "Source Machine Id",
+          "type": "string"
+        },
+        "source_type": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Source Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "evidence_id",
+        "source_machine_id",
+        "session_id",
+        "source_type",
+        "original_timestamp",
+        "canonical_event_type",
+        "canonical_payload",
+        "provenance"
+      ],
+      "title": "EvidenceManifestEntry",
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "entries": {
+      "items": {
+        "$ref": "#/$defs/EvidenceManifestEntry"
+      },
+      "title": "Entries",
+      "type": "array"
+    },
+    "schema_version": {
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "session_id": {
+      "format": "uuid",
+      "title": "Session Id",
+      "type": "string"
+    },
+    "source_machine_id": {
+      "format": "uuid",
+      "title": "Source Machine Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "source_machine_id",
+    "session_id"
+  ],
+  "title": "EvidenceManifest",
+  "type": "object",
+  "x-mine-trace-schema-version": "1.0.0"
+}

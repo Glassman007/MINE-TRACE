@@ -1,0 +1,48 @@
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mine-trace-backend"
+version = "0.1.0"
+description = "MINE-TRACE MVP backend foundation"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "fastapi>=0.115,<1.0",
+  "uvicorn[standard]>=0.32,<1.0",
+  "pydantic>=2.10,<3.0",
+  "pydantic-settings>=2.7,<3.0",
+  "sqlalchemy>=2.0,<3.0",
+  "alembic>=1.14,<2.0",
+  "qdrant-client>=1.12,<2.0",
+  "fastembed==0.8.1",
+  "groq>=0.33,<1.0",
+  "httpx>=0.28,<1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3,<10.0",
+  "pytest-asyncio>=0.25,<2.0",
+  "psycopg[binary]>=3.2,<4.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["app"]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+addopts = "-q --strict-markers --strict-config"
+pythonpath = ["."]
+markers = [
+  "real_qdrant: requires explicit isolated Qdrant and PostgreSQL integration services",
+]
+
+[tool.pytest_asyncio]
+asyncio_mode = "auto"
+
+[tool.coverage.run]
+branch = true
+source = ["app"]

@@ -1,0 +1,7 @@
+{
+  "contract": "MINE-TRACE Global Synchronization",
+  "current_schema_version": "1.0.0",
+  "supported_major_versions": [1],
+  "runtime_model_source": "app/contracts/sync.py",
+  "generated_schema_directory": "shared/schema"
+}

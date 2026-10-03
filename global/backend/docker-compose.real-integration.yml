@@ -1,0 +1,18 @@
+services:
+  qdrant-real-integration:
+    image: ${MINE_TRACE_TEST_QDRANT_IMAGE:-qdrant/qdrant:latest}
+    ports:
+      - "6333:6333"
+    tmpfs:
+      - /qdrant/storage
+
+  postgres-real-integration:
+    image: ${MINE_TRACE_TEST_POSTGRES_IMAGE:-postgres:16-alpine}
+    environment:
+      POSTGRES_USER: mine_trace
+      POSTGRES_PASSWORD: mine_trace
+      POSTGRES_DB: mine_trace_test
+    ports:
+      - "55432:5432"
+    tmpfs:
+      - /var/lib/postgresql/data

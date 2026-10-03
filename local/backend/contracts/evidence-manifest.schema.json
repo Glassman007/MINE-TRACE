@@ -1,0 +1,175 @@
+{
+  "$defs": {
+    "EvidenceAttachmentManifestReference": {
+      "additionalProperties": false,
+      "properties": {
+        "attachment_id": {
+          "format": "uuid",
+          "title": "Attachment Id",
+          "type": "string"
+        },
+        "checksum": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Checksum"
+        },
+        "file_size": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "File Size"
+        },
+        "mime_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mime Type"
+        },
+        "storage_reference": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Storage Reference"
+        }
+      },
+      "required": [
+        "attachment_id"
+      ],
+      "title": "EvidenceAttachmentManifestReference",
+      "type": "object"
+    },
+    "EvidenceManifestEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "checksum": {
+          "title": "Checksum",
+          "type": "string"
+        },
+        "checksum_scope": {
+          "default": "CANONICAL_EVIDENCE_RECORD",
+          "title": "Checksum Scope",
+          "type": "string"
+        },
+        "component_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Component Id"
+        },
+        "evidence_id": {
+          "format": "uuid",
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "incident_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Incident Id"
+        },
+        "machine_id": {
+          "format": "uuid",
+          "title": "Machine Id",
+          "type": "string"
+        },
+        "original_timestamp": {
+          "format": "date-time",
+          "title": "Original Timestamp",
+          "type": "string"
+        },
+        "provenance_reference": {
+          "title": "Provenance Reference",
+          "type": "string"
+        },
+        "session_id": {
+          "format": "uuid",
+          "title": "Session Id",
+          "type": "string"
+        },
+        "source_type": {
+          "title": "Source Type",
+          "type": "string"
+        },
+        "storage_references": {
+          "items": {
+            "$ref": "#/$defs/EvidenceAttachmentManifestReference"
+          },
+          "title": "Storage References",
+          "type": "array"
+        }
+      },
+      "required": [
+        "evidence_id",
+        "machine_id",
+        "session_id",
+        "source_type",
+        "original_timestamp",
+        "provenance_reference",
+        "checksum",
+        "storage_references"
+      ],
+      "title": "EvidenceManifestEntry",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "entries": {
+      "items": {
+        "$ref": "#/$defs/EvidenceManifestEntry"
+      },
+      "title": "Entries",
+      "type": "array"
+    },
+    "schema_version": {
+      "pattern": "^[1-9]\\d*\\.\\d+$",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "entries"
+  ],
+  "title": "EvidenceManifest",
+  "type": "object"
+}

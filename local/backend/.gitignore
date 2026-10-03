@@ -1,0 +1,189 @@
+# =========================
+# Virtual environments
+# =========================
+.venv/
+venv/
+env/
+ENV/
+
+# =========================
+# Environment / secrets
+# =========================
+.env
+.env.*
+!.env.example
+*.env
+*.secret
+secrets/
+credentials/
+
+# =========================
+# Python cache / compiled
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.python-version
+
+# =========================
+# Testing / coverage
+# =========================
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.tox/
+.nox/
+
+# =========================
+# Type checking / linting
+# =========================
+.mypy_cache/
+.pyright/
+.ruff_cache/
+.dmypy.json
+dmypy.json
+
+# =========================
+# Database files
+# =========================
+*.db
+*.sqlite
+*.sqlite3
+*.db-shm
+*.db-wal
+*.db-journal
+
+# =========================
+# Logs
+# =========================
+*.log
+logs/
+log/
+uvicorn.log
+
+# =========================
+# Runtime / temporary files
+# =========================
+tmp/
+temp/
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*.pid
+
+# =========================
+# Build / packaging
+# =========================
+build/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# =========================
+# IDEs / editors
+# =========================
+.vscode/
+.idea/
+*.code-workspace
+
+# =========================
+# OS-generated files
+# =========================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# =========================
+# Jupyter
+# =========================
+.ipynb_checkpoints/
+
+# =========================
+# Qdrant local storage
+# =========================
+qdrant_storage/
+.qdrant/
+storage/qdrant/
+
+# =========================
+# Local application data
+# =========================
+data/
+local_data/
+runtime/
+uploads/
+
+# =========================
+# ML / model artifacts
+# =========================
+models/
+checkpoints/
+*.pkl
+*.pickle
+*.joblib
+*.pt
+*.pth
+*.onnx
+*.bin
+*.safetensors
+
+# =========================
+# Embeddings / vector data
+# =========================
+embeddings/
+vector_store/
+vector_db/
+*.faiss
+*.index
+
+# =========================
+# Node/frontend if repo shared
+# =========================
+node_modules/
+frontend/node_modules/
+dist/
+.vite/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# =========================
+# Docker local overrides
+# =========================
+docker-compose.override.yml
+
+# =========================
+# Local certificates / keys
+# =========================
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# =========================
+# Misc
+# =========================
+.cache/
+.local/

@@ -1,0 +1,1073 @@
+{
+  "$defs": {
+    "ComponentDescriptor": {
+      "additionalProperties": false,
+      "properties": {
+        "component_id": {
+          "format": "uuid",
+          "title": "Component Id",
+          "type": "string"
+        },
+        "component_type": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Component Type"
+        },
+        "display_name": {
+          "anyOf": [
+            {
+              "maxLength": 255,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Display Name"
+        },
+        "machine_id": {
+          "format": "uuid",
+          "title": "Machine Id",
+          "type": "string"
+        },
+        "manufacturer": {
+          "anyOf": [
+            {
+              "maxLength": 255,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Manufacturer"
+        },
+        "model": {
+          "anyOf": [
+            {
+              "maxLength": 255,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model"
+        }
+      },
+      "required": [
+        "component_id",
+        "machine_id"
+      ],
+      "title": "ComponentDescriptor",
+      "type": "object"
+    },
+    "EvidenceManifest": {
+      "additionalProperties": false,
+      "properties": {
+        "entries": {
+          "items": {
+            "$ref": "#/$defs/EvidenceManifestEntry"
+          },
+          "title": "Entries",
+          "type": "array"
+        },
+        "schema_version": {
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "session_id": {
+          "format": "uuid",
+          "title": "Session Id",
+          "type": "string"
+        },
+        "source_machine_id": {
+          "format": "uuid",
+          "title": "Source Machine Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "source_machine_id",
+        "session_id"
+      ],
+      "title": "EvidenceManifest",
+      "type": "object"
+    },
+    "EvidenceManifestEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "canonical_event_type": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Canonical Event Type",
+          "type": "string"
+        },
+        "canonical_payload": {
+          "additionalProperties": true,
+          "title": "Canonical Payload",
+          "type": "object"
+        },
+        "component_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Component Id"
+        },
+        "evidence_checksum": {
+          "anyOf": [
+            {
+              "maxLength": 255,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evidence Checksum"
+        },
+        "evidence_id": {
+          "format": "uuid",
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "incident_ids": {
+          "items": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "title": "Incident Ids",
+          "type": "array"
+        },
+        "original_source_record_id": {
+          "anyOf": [
+            {
+              "maxLength": 255,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Original Source Record Id"
+        },
+        "original_timestamp": {
+          "format": "date-time",
+          "title": "Original Timestamp",
+          "type": "string"
+        },
+        "provenance": {
+          "additionalProperties": true,
+          "title": "Provenance",
+          "type": "object"
+        },
+        "session_id": {
+          "format": "uuid",
+          "title": "Session Id",
+          "type": "string"
+        },
+        "source_machine_id": {
+          "format": "uuid",
+          "title": "Source Machine Id",
+          "type": "string"
+        },
+        "source_type": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Source Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "evidence_id",
+        "source_machine_id",
+        "session_id",
+        "source_type",
+        "original_timestamp",
+        "canonical_event_type",
+        "canonical_payload",
+        "provenance"
+      ],
+      "title": "EvidenceManifestEntry",
+      "type": "object"
+    },
+    "ImportantTextEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_id": {
+          "format": "uuid",
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "semantic_kind": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Semantic Kind",
+          "type": "string"
+        },
+        "text": {
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "evidence_id",
+        "semantic_kind",
+        "text"
+      ],
+      "title": "ImportantTextEvidence",
+      "type": "object"
+    },
+    "IncidentEvidenceReference": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_id": {
+          "format": "uuid",
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "link_reason": {
+          "default": "synchronized_edge_relationship",
+          "minLength": 1,
+          "title": "Link Reason",
+          "type": "string"
+        },
+        "relationship_type": {
+          "default": "RELATED",
+          "enum": [
+            "RELATED",
+            "RECURRENCE",
+            "VERIFICATION"
+          ],
+          "title": "Relationship Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "evidence_id"
+      ],
+      "title": "IncidentEvidenceReference",
+      "type": "object"
+    },
+    "IncidentUpdate": {
+      "additionalProperties": false,
+      "properties": {
+        "component_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Component Id"
+        },
+        "due_state": {
+          "anyOf": [
+            {
+              "maxLength": 64,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Due State"
+        },
+        "due_time": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Due Time"
+        },
+        "evidence_links": {
+          "items": {
+            "$ref": "#/$defs/IncidentEvidenceReference"
+          },
+          "title": "Evidence Links",
+          "type": "array"
+        },
+        "first_seen_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "First Seen At"
+        },
+        "incident_id": {
+          "format": "uuid",
+          "title": "Incident Id",
+          "type": "string"
+        },
+        "last_seen_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Seen At"
+        },
+        "machine_id": {
+          "format": "uuid",
+          "title": "Machine Id",
+          "type": "string"
+        },
+        "owner_ref": {
+          "anyOf": [
+            {
+              "maxLength": 255,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Owner Ref"
+        },
+        "session_id": {
+          "format": "uuid",
+          "title": "Session Id",
+          "type": "string"
+        },
+        "severity": {
+          "anyOf": [
+            {
+              "maxLength": 64,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Severity"
+        },
+        "status": {
+          "enum": [
+            "OPEN",
+            "VERIFYING",
+            "VERIFIED",
+            "RECURRED"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "incident_id",
+        "machine_id",
+        "session_id",
+        "status"
+      ],
+      "title": "IncidentUpdate",
+      "type": "object"
+    },
+    "MachineDescriptor": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_code": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Asset Code"
+        },
+        "display_name": {
+          "anyOf": [
+            {
+              "maxLength": 255,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Display Name"
+        },
+        "machine_id": {
+          "format": "uuid",
+          "title": "Machine Id",
+          "type": "string"
+        },
+        "machine_type": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Machine Type"
+        },
+        "manufacturer": {
+          "anyOf": [
+            {
+              "maxLength": 255,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Manufacturer"
+        },
+        "model": {
+          "anyOf": [
+            {
+              "maxLength": 255,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model"
+        },
+        "site_area": {
+          "anyOf": [
+            {
+              "maxLength": 255,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Site Area"
+        },
+        "site_name": {
+          "anyOf": [
+            {
+              "maxLength": 255,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Site Name"
+        }
+      },
+      "required": [
+        "machine_id"
+      ],
+      "title": "MachineDescriptor",
+      "type": "object"
+    },
+    "MachineSessionReport": {
+      "additionalProperties": false,
+      "properties": {
+        "components": {
+          "items": {
+            "$ref": "#/$defs/ComponentDescriptor"
+          },
+          "title": "Components",
+          "type": "array"
+        },
+        "generated_at": {
+          "format": "date-time",
+          "title": "Generated At",
+          "type": "string"
+        },
+        "machine": {
+          "$ref": "#/$defs/MachineDescriptor"
+        },
+        "maintenance_actions": {
+          "items": {
+            "$ref": "#/$defs/MaintenanceActionSnapshot"
+          },
+          "title": "Maintenance Actions",
+          "type": "array"
+        },
+        "report_id": {
+          "format": "uuid",
+          "title": "Report Id",
+          "type": "string"
+        },
+        "report_revision": {
+          "minimum": 1,
+          "title": "Report Revision",
+          "type": "integer"
+        },
+        "schema_version": {
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "session": {
+          "$ref": "#/$defs/OperatingSessionSnapshot"
+        },
+        "verification_runs": {
+          "items": {
+            "$ref": "#/$defs/VerificationRunSnapshot"
+          },
+          "title": "Verification Runs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "schema_version",
+        "report_id",
+        "report_revision",
+        "generated_at",
+        "machine",
+        "session"
+      ],
+      "title": "MachineSessionReport",
+      "type": "object"
+    },
+    "MaintenanceActionSnapshot": {
+      "additionalProperties": false,
+      "properties": {
+        "action_id": {
+          "format": "uuid",
+          "title": "Action Id",
+          "type": "string"
+        },
+        "action_type": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Action Type",
+          "type": "string"
+        },
+        "component_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Component Id"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "incident_id": {
+          "format": "uuid",
+          "title": "Incident Id",
+          "type": "string"
+        },
+        "machine_id": {
+          "format": "uuid",
+          "title": "Machine Id",
+          "type": "string"
+        },
+        "original_timestamp": {
+          "format": "date-time",
+          "title": "Original Timestamp",
+          "type": "string"
+        },
+        "provenance": {
+          "additionalProperties": true,
+          "title": "Provenance",
+          "type": "object"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        }
+      },
+      "required": [
+        "action_id",
+        "machine_id",
+        "incident_id",
+        "action_type",
+        "original_timestamp"
+      ],
+      "title": "MaintenanceActionSnapshot",
+      "type": "object"
+    },
+    "OperatingSessionSnapshot": {
+      "additionalProperties": false,
+      "properties": {
+        "ended_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ended At"
+        },
+        "machine_id": {
+          "format": "uuid",
+          "title": "Machine Id",
+          "type": "string"
+        },
+        "operating_hours": {
+          "anyOf": [
+            {
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Operating Hours"
+        },
+        "session_id": {
+          "format": "uuid",
+          "title": "Session Id",
+          "type": "string"
+        },
+        "started_at": {
+          "format": "date-time",
+          "title": "Started At",
+          "type": "string"
+        },
+        "state": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "State",
+          "type": "string"
+        }
+      },
+      "required": [
+        "session_id",
+        "machine_id",
+        "started_at",
+        "state"
+      ],
+      "title": "OperatingSessionSnapshot",
+      "type": "object"
+    },
+    "PolicySelectedRawEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "attachment_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Attachment Id"
+        },
+        "attachment_type": {
+          "anyOf": [
+            {
+              "maxLength": 100,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Attachment Type"
+        },
+        "checksum": {
+          "anyOf": [
+            {
+              "maxLength": 255,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Checksum"
+        },
+        "created_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Created At"
+        },
+        "evidence_id": {
+          "format": "uuid",
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "file_size": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "File Size"
+        },
+        "mime_type": {
+          "anyOf": [
+            {
+              "maxLength": 255,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mime Type"
+        },
+        "raw_payload": {
+          "additionalProperties": true,
+          "title": "Raw Payload",
+          "type": "object"
+        },
+        "storage_reference": {
+          "anyOf": [
+            {
+              "maxLength": 1024,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Storage Reference"
+        }
+      },
+      "required": [
+        "evidence_id"
+      ],
+      "title": "PolicySelectedRawEvidence",
+      "type": "object"
+    },
+    "SyncMetadata": {
+      "additionalProperties": false,
+      "properties": {
+        "checksum": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Checksum",
+          "type": "string"
+        },
+        "checksum_algorithm": {
+          "default": "sha256",
+          "title": "Checksum Algorithm",
+          "type": "string"
+        },
+        "produced_at": {
+          "format": "date-time",
+          "title": "Produced At",
+          "type": "string"
+        },
+        "producer_version": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Producer Version"
+        }
+      },
+      "required": [
+        "checksum",
+        "produced_at"
+      ],
+      "title": "SyncMetadata",
+      "type": "object"
+    },
+    "VerificationRunSnapshot": {
+      "additionalProperties": false,
+      "properties": {
+        "completed_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Completed At"
+        },
+        "evidence_ids": {
+          "items": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "incident_id": {
+          "format": "uuid",
+          "title": "Incident Id",
+          "type": "string"
+        },
+        "original_timestamp": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Original Timestamp"
+        },
+        "outcome_payload": {
+          "additionalProperties": true,
+          "title": "Outcome Payload",
+          "type": "object"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "enum": [
+                "SUCCEEDED",
+                "RECURRENCE_DETECTED"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Result"
+        },
+        "rule_identifier": {
+          "anyOf": [
+            {
+              "maxLength": 255,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rule Identifier"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Session Id"
+        },
+        "source_machine_id": {
+          "format": "uuid",
+          "title": "Source Machine Id",
+          "type": "string"
+        },
+        "started_at": {
+          "format": "date-time",
+          "title": "Started At",
+          "type": "string"
+        },
+        "verification_run_id": {
+          "format": "uuid",
+          "title": "Verification Run Id",
+          "type": "string"
+        },
+        "window_ends_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Window Ends At"
+        }
+      },
+      "required": [
+        "verification_run_id",
+        "incident_id",
+        "source_machine_id",
+        "started_at"
+      ],
+      "title": "VerificationRunSnapshot",
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "evidence_manifest": {
+      "$ref": "#/$defs/EvidenceManifest"
+    },
+    "important_text_evidence": {
+      "items": {
+        "$ref": "#/$defs/ImportantTextEvidence"
+      },
+      "title": "Important Text Evidence",
+      "type": "array"
+    },
+    "incident_updates": {
+      "items": {
+        "$ref": "#/$defs/IncidentUpdate"
+      },
+      "title": "Incident Updates",
+      "type": "array"
+    },
+    "machine_session_report": {
+      "$ref": "#/$defs/MachineSessionReport"
+    },
+    "optional_policy_selected_raw_evidence": {
+      "items": {
+        "$ref": "#/$defs/PolicySelectedRawEvidence"
+      },
+      "title": "Optional Policy Selected Raw Evidence",
+      "type": "array"
+    },
+    "package_id": {
+      "format": "uuid",
+      "title": "Package Id",
+      "type": "string"
+    },
+    "report_revision": {
+      "minimum": 1,
+      "title": "Report Revision",
+      "type": "integer"
+    },
+    "schema_version": {
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "session_id": {
+      "format": "uuid",
+      "title": "Session Id",
+      "type": "string"
+    },
+    "source_machine_id": {
+      "format": "uuid",
+      "title": "Source Machine Id",
+      "type": "string"
+    },
+    "sync_metadata": {
+      "$ref": "#/$defs/SyncMetadata"
+    }
+  },
+  "required": [
+    "schema_version",
+    "package_id",
+    "source_machine_id",
+    "session_id",
+    "report_revision",
+    "machine_session_report",
+    "evidence_manifest",
+    "sync_metadata"
+  ],
+  "title": "SyncEnvelope",
+  "type": "object",
+  "x-mine-trace-schema-version": "1.0.0"
+}

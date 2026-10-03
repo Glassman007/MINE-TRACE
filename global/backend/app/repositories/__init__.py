@@ -1,0 +1,56 @@
+"""Repository interfaces, SQLAlchemy implementations, and transaction boundary."""
+
+from app.repositories.interfaces import (
+    ComponentRepository,
+    ContextSnapshotRepository,
+    EvidenceAttachmentRepository,
+    EvidenceEventRepository,
+    IncidentAuditEventRepository,
+    IncidentEvidenceLinkRepository,
+    IncidentRepository,
+    MachineRepository,
+    VerificationEvidenceRepository,
+    VerificationRuleRepository,
+    VerificationRunRepository,
+)
+from app.repositories.sqlalchemy import (
+    SQLAlchemyComponentRepository,
+    SQLAlchemyContextSnapshotRepository,
+    SQLAlchemyEvidenceAttachmentRepository,
+    SQLAlchemyEvidenceEventRepository,
+    SQLAlchemyIncidentAuditEventRepository,
+    SQLAlchemyIncidentEvidenceLinkRepository,
+    SQLAlchemyIncidentRepository,
+    SQLAlchemyMachineRepository,
+    SQLAlchemyVerificationEvidenceRepository,
+    SQLAlchemyVerificationRuleRepository,
+    SQLAlchemyVerificationRunRepository,
+)
+from app.repositories.unit_of_work import SQLAlchemyUnitOfWork, UnitOfWork
+
+__all__ = [
+    "ComponentRepository",
+    "ContextSnapshotRepository",
+    "EvidenceAttachmentRepository",
+    "EvidenceEventRepository",
+    "IncidentAuditEventRepository",
+    "IncidentEvidenceLinkRepository",
+    "IncidentRepository",
+    "MachineRepository",
+    "SQLAlchemyComponentRepository",
+    "SQLAlchemyContextSnapshotRepository",
+    "SQLAlchemyEvidenceAttachmentRepository",
+    "SQLAlchemyEvidenceEventRepository",
+    "SQLAlchemyIncidentAuditEventRepository",
+    "SQLAlchemyIncidentEvidenceLinkRepository",
+    "SQLAlchemyIncidentRepository",
+    "SQLAlchemyMachineRepository",
+    "SQLAlchemyUnitOfWork",
+    "SQLAlchemyVerificationEvidenceRepository",
+    "SQLAlchemyVerificationRuleRepository",
+    "SQLAlchemyVerificationRunRepository",
+    "UnitOfWork",
+    "VerificationEvidenceRepository",
+    "VerificationRuleRepository",
+    "VerificationRunRepository",
+]

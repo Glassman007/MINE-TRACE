@@ -1,0 +1,58 @@
+.app-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: var(--mt-bg);
+}
+
+.app-background__fallback,
+.app-background__video,
+.app-background__readability,
+.app-background__vignette {
+  position: absolute;
+  inset: 0;
+}
+
+.app-background__fallback {
+  background:
+    radial-gradient(circle at 72% 24%, rgb(52 160 170 / 18%), transparent 34%),
+    radial-gradient(circle at 28% 75%, rgb(13 75 85 / 20%), transparent 42%),
+    linear-gradient(145deg, #010509 0%, #031014 44%, #010509 100%);
+}
+
+.app-background__video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.78;
+}
+
+.app-background__readability {
+  background:
+    linear-gradient(90deg, rgb(1 5 9 / 78%) 0%, rgb(1 5 9 / 42%) 48%, rgb(3 22 27 / 56%) 100%),
+    linear-gradient(180deg, rgb(1 5 9 / 48%) 0%, rgb(1 5 9 / 22%) 48%, rgb(1 5 9 / 70%) 100%);
+}
+
+.app-background__vignette {
+  box-shadow: inset 0 0 190px 48px rgb(0 0 0 / 44%);
+}
+
+@media (max-width: 760px) {
+  .app-background__video {
+    opacity: 0.62;
+  }
+
+  .app-background__readability {
+    background: linear-gradient(180deg, rgb(1 5 9 / 78%), rgb(1 5 9 / 58%) 42%, rgb(1 5 9 / 78%));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-background__fallback {
+    background:
+      radial-gradient(circle at 76% 18%, rgb(52 160 170 / 14%), transparent 30%),
+      linear-gradient(145deg, #010509 0%, #042027 55%, #010509 100%);
+  }
+}

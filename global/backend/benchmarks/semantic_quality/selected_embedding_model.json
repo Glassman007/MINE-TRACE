@@ -1,0 +1,14 @@
+{
+  "provider": "qdrant_cloud_inference",
+  "model": "sentence-transformers/all-minilm-l6-v2",
+  "vector_size": 384,
+  "distance": "cosine",
+  "documented_by": "Qdrant Cloud Inference model catalog",
+  "documentation_url": "https://qdrant.tech/documentation/cloud/inference/",
+  "documentation_checked_on": "2026-10-03",
+  "notes": [
+    "This file documents benchmark metadata for the currently selected model; it does not change canonical MINE-TRACE runtime architecture.",
+    "Vector size is centralized here for benchmark Cloud-Inference materialization and is validated against the configured model before execution.",
+    "Similarity scores are ranking values, not confidence or factual probability."
+  ]
+}

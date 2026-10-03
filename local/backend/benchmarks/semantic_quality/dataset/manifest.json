@@ -1,0 +1,30 @@
+{
+  "component_count": 12,
+  "dataset_name": "mine-trace-semantic-quality-v1",
+  "description": "Labeled synthetic industrial-equipment semantic retrieval benchmark for the production-shaped MINE-TRACE pipeline.",
+  "evidence_count": 36,
+  "files": {
+    "evidence": "evidence.jsonl",
+    "queries": "queries.jsonl"
+  },
+  "machine_count": 3,
+  "notes": [
+    "Similarity labels are evaluation ground truth for retrieval quality only; they do not establish root cause or factual equivalence.",
+    "All records are synthetic and isolated from production canonical data."
+  ],
+  "query_count": 20,
+  "required_coverage": [
+    "paraphrases",
+    "abbreviations",
+    "technician terminology",
+    "operator terminology",
+    "differently worded same symptoms",
+    "semantically similar but causally unrelated faults",
+    "different-machine distractors",
+    "same-machine records",
+    "different-component distractors",
+    "same-component history"
+  ],
+  "synthetic": true,
+  "version": 1
+}

@@ -1,0 +1,93 @@
+{
+  "$defs": {
+    "SyncAcknowledgementStatus": {
+      "enum": [
+        "ACCEPTED",
+        "DUPLICATE",
+        "CONFLICT"
+      ],
+      "title": "SyncAcknowledgementStatus",
+      "type": "string"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "acknowledgement_id": {
+      "format": "uuid",
+      "title": "Acknowledgement Id",
+      "type": "string"
+    },
+    "canonical_receipt_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Canonical Receipt Id"
+    },
+    "conflict_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Conflict Id"
+    },
+    "package_id": {
+      "format": "uuid",
+      "title": "Package Id",
+      "type": "string"
+    },
+    "received_at": {
+      "format": "date-time",
+      "title": "Received At",
+      "type": "string"
+    },
+    "report_revision": {
+      "minimum": 1,
+      "title": "Report Revision",
+      "type": "integer"
+    },
+    "schema_version": {
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "session_id": {
+      "format": "uuid",
+      "title": "Session Id",
+      "type": "string"
+    },
+    "source_machine_id": {
+      "format": "uuid",
+      "title": "Source Machine Id",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/SyncAcknowledgementStatus"
+    }
+  },
+  "required": [
+    "schema_version",
+    "acknowledgement_id",
+    "package_id",
+    "source_machine_id",
+    "session_id",
+    "report_revision",
+    "status",
+    "received_at"
+  ],
+  "title": "SyncAcknowledgement",
+  "type": "object",
+  "x-mine-trace-schema-version": "1.0.0"
+}

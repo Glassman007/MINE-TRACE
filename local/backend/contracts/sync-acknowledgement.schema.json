@@ -1,0 +1,89 @@
+{
+  "$defs": {
+    "JsonValue": {},
+    "SyncAcknowledgementStatus": {
+      "enum": [
+        "ACKNOWLEDGED",
+        "DUPLICATE",
+        "CONFLICT",
+        "REJECTED",
+        "UNSUPPORTED_SCHEMA"
+      ],
+      "title": "SyncAcknowledgementStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "acknowledged_at": {
+      "format": "date-time",
+      "title": "Acknowledged At",
+      "type": "string"
+    },
+    "central_revision": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Central Revision"
+    },
+    "error_code": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Error Code"
+    },
+    "message": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Message"
+    },
+    "package_id": {
+      "format": "uuid",
+      "title": "Package Id",
+      "type": "string"
+    },
+    "resolution_metadata": {
+      "additionalProperties": {
+        "$ref": "#/$defs/JsonValue"
+      },
+      "title": "Resolution Metadata",
+      "type": "object"
+    },
+    "schema_version": {
+      "pattern": "^[1-9]\\d*\\.\\d+$",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/SyncAcknowledgementStatus"
+    }
+  },
+  "required": [
+    "schema_version",
+    "package_id",
+    "status",
+    "acknowledged_at"
+  ],
+  "title": "SyncAcknowledgement",
+  "type": "object"
+}

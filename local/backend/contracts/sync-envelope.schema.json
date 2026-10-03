@@ -1,0 +1,878 @@
+{
+  "$defs": {
+    "EvidenceAttachmentManifestReference": {
+      "additionalProperties": false,
+      "properties": {
+        "attachment_id": {
+          "format": "uuid",
+          "title": "Attachment Id",
+          "type": "string"
+        },
+        "checksum": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Checksum"
+        },
+        "file_size": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "File Size"
+        },
+        "mime_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mime Type"
+        },
+        "storage_reference": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Storage Reference"
+        }
+      },
+      "required": [
+        "attachment_id"
+      ],
+      "title": "EvidenceAttachmentManifestReference",
+      "type": "object"
+    },
+    "EvidenceManifest": {
+      "additionalProperties": false,
+      "properties": {
+        "entries": {
+          "items": {
+            "$ref": "#/$defs/EvidenceManifestEntry"
+          },
+          "title": "Entries",
+          "type": "array"
+        },
+        "schema_version": {
+          "pattern": "^[1-9]\\d*\\.\\d+$",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "entries"
+      ],
+      "title": "EvidenceManifest",
+      "type": "object"
+    },
+    "EvidenceManifestEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "checksum": {
+          "title": "Checksum",
+          "type": "string"
+        },
+        "checksum_scope": {
+          "default": "CANONICAL_EVIDENCE_RECORD",
+          "title": "Checksum Scope",
+          "type": "string"
+        },
+        "component_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Component Id"
+        },
+        "evidence_id": {
+          "format": "uuid",
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "incident_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Incident Id"
+        },
+        "machine_id": {
+          "format": "uuid",
+          "title": "Machine Id",
+          "type": "string"
+        },
+        "original_timestamp": {
+          "format": "date-time",
+          "title": "Original Timestamp",
+          "type": "string"
+        },
+        "provenance_reference": {
+          "title": "Provenance Reference",
+          "type": "string"
+        },
+        "session_id": {
+          "format": "uuid",
+          "title": "Session Id",
+          "type": "string"
+        },
+        "source_type": {
+          "title": "Source Type",
+          "type": "string"
+        },
+        "storage_references": {
+          "items": {
+            "$ref": "#/$defs/EvidenceAttachmentManifestReference"
+          },
+          "title": "Storage References",
+          "type": "array"
+        }
+      },
+      "required": [
+        "evidence_id",
+        "machine_id",
+        "session_id",
+        "source_type",
+        "original_timestamp",
+        "provenance_reference",
+        "checksum",
+        "storage_references"
+      ],
+      "title": "EvidenceManifestEntry",
+      "type": "object"
+    },
+    "ImportantTextEvidence": {
+      "additionalProperties": false,
+      "description": "Policy-selected compact textual evidence; never raw high-frequency telemetry.",
+      "properties": {
+        "evidence_id": {
+          "format": "uuid",
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "original_timestamp": {
+          "format": "date-time",
+          "title": "Original Timestamp",
+          "type": "string"
+        },
+        "provenance_reference": {
+          "title": "Provenance Reference",
+          "type": "string"
+        },
+        "schema_version": {
+          "pattern": "^[1-9]\\d*\\.\\d+$",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "source_type": {
+          "title": "Source Type",
+          "type": "string"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "evidence_id",
+        "source_type",
+        "original_timestamp",
+        "text",
+        "provenance_reference"
+      ],
+      "title": "ImportantTextEvidence",
+      "type": "object"
+    },
+    "IncidentStatus": {
+      "enum": [
+        "OPEN",
+        "VERIFYING",
+        "VERIFIED",
+        "RECURRED"
+      ],
+      "title": "IncidentStatus",
+      "type": "string"
+    },
+    "IncidentUpdate": {
+      "additionalProperties": false,
+      "description": "Canonical incident state carried with one immutable session snapshot.",
+      "properties": {
+        "component_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Component Id"
+        },
+        "first_seen": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "First Seen"
+        },
+        "incident_id": {
+          "format": "uuid",
+          "title": "Incident Id",
+          "type": "string"
+        },
+        "last_seen": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Seen"
+        },
+        "machine_id": {
+          "format": "uuid",
+          "title": "Machine Id",
+          "type": "string"
+        },
+        "occurrence_count": {
+          "minimum": 0,
+          "title": "Occurrence Count",
+          "type": "integer"
+        },
+        "report_revision": {
+          "minimum": 1,
+          "title": "Report Revision",
+          "type": "integer"
+        },
+        "schema_version": {
+          "pattern": "^[1-9]\\d*\\.\\d+$",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "severity": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Severity"
+        },
+        "state": {
+          "$ref": "#/$defs/IncidentStatus"
+        }
+      },
+      "required": [
+        "schema_version",
+        "incident_id",
+        "machine_id",
+        "state",
+        "occurrence_count",
+        "report_revision"
+      ],
+      "title": "IncidentUpdate",
+      "type": "object"
+    },
+    "JsonValue": {},
+    "MachineSessionReport": {
+      "additionalProperties": false,
+      "properties": {
+        "checksum": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Checksum",
+          "type": "string"
+        },
+        "evidence_manifest": {
+          "$ref": "#/$defs/EvidenceManifest"
+        },
+        "generated_at": {
+          "format": "date-time",
+          "title": "Generated At",
+          "type": "string"
+        },
+        "incident_summaries": {
+          "items": {
+            "$ref": "#/$defs/SessionIncidentSummary"
+          },
+          "title": "Incident Summaries",
+          "type": "array"
+        },
+        "machine_id": {
+          "format": "uuid",
+          "title": "Machine Id",
+          "type": "string"
+        },
+        "maintenance_actions": {
+          "items": {
+            "$ref": "#/$defs/SessionMaintenanceAction"
+          },
+          "title": "Maintenance Actions",
+          "type": "array"
+        },
+        "operating_summary": {
+          "$ref": "#/$defs/SessionOperatingSummary"
+        },
+        "report_id": {
+          "format": "uuid",
+          "title": "Report Id",
+          "type": "string"
+        },
+        "schema_version": {
+          "pattern": "^[1-9]\\d*\\.\\d+$",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "session_id": {
+          "format": "uuid",
+          "title": "Session Id",
+          "type": "string"
+        },
+        "sync_metadata": {
+          "$ref": "#/$defs/SessionReportSyncMetadata"
+        },
+        "unresolved_work": {
+          "items": {
+            "$ref": "#/$defs/SessionUnresolvedWork"
+          },
+          "title": "Unresolved Work",
+          "type": "array"
+        },
+        "verification_results": {
+          "items": {
+            "$ref": "#/$defs/SessionVerificationResult"
+          },
+          "title": "Verification Results",
+          "type": "array"
+        }
+      },
+      "required": [
+        "report_id",
+        "machine_id",
+        "session_id",
+        "schema_version",
+        "generated_at",
+        "operating_summary",
+        "incident_summaries",
+        "maintenance_actions",
+        "verification_results",
+        "unresolved_work",
+        "evidence_manifest",
+        "sync_metadata",
+        "checksum"
+      ],
+      "title": "MachineSessionReport",
+      "type": "object"
+    },
+    "OperatingSessionState": {
+      "enum": [
+        "OPEN",
+        "CLOSED"
+      ],
+      "title": "OperatingSessionState",
+      "type": "string"
+    },
+    "PolicySelectedRawEvidenceReference": {
+      "additionalProperties": false,
+      "description": "Reference only; raw bytes are not embedded in the normal sync envelope.",
+      "properties": {
+        "checksum": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Checksum"
+        },
+        "evidence_id": {
+          "format": "uuid",
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "schema_version": {
+          "pattern": "^[1-9]\\d*\\.\\d+$",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "storage_reference": {
+          "title": "Storage Reference",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "evidence_id",
+        "storage_reference",
+        "reason"
+      ],
+      "title": "PolicySelectedRawEvidenceReference",
+      "type": "object"
+    },
+    "SessionIncidentSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "component_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Component Id"
+        },
+        "first_seen": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "First Seen"
+        },
+        "incident_id": {
+          "format": "uuid",
+          "title": "Incident Id",
+          "type": "string"
+        },
+        "last_seen": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Seen"
+        },
+        "occurrence_count": {
+          "title": "Occurrence Count",
+          "type": "integer"
+        },
+        "severity": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Severity"
+        },
+        "state": {
+          "$ref": "#/$defs/IncidentStatus"
+        }
+      },
+      "required": [
+        "incident_id",
+        "state",
+        "occurrence_count"
+      ],
+      "title": "SessionIncidentSummary",
+      "type": "object"
+    },
+    "SessionMaintenanceAction": {
+      "additionalProperties": false,
+      "properties": {
+        "action_type": {
+          "title": "Action Type",
+          "type": "string"
+        },
+        "canonical_payload": {
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "title": "Canonical Payload",
+          "type": "object"
+        },
+        "component_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Component Id"
+        },
+        "evidence_id": {
+          "format": "uuid",
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "original_timestamp": {
+          "format": "date-time",
+          "title": "Original Timestamp",
+          "type": "string"
+        }
+      },
+      "required": [
+        "evidence_id",
+        "action_type",
+        "original_timestamp",
+        "canonical_payload"
+      ],
+      "title": "SessionMaintenanceAction",
+      "type": "object"
+    },
+    "SessionOperatingSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "end": {
+          "format": "date-time",
+          "title": "End",
+          "type": "string"
+        },
+        "operating_hours": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Operating Hours"
+        },
+        "session_state": {
+          "$ref": "#/$defs/OperatingSessionState"
+        },
+        "start": {
+          "format": "date-time",
+          "title": "Start",
+          "type": "string"
+        }
+      },
+      "required": [
+        "start",
+        "end",
+        "session_state"
+      ],
+      "title": "SessionOperatingSummary",
+      "type": "object"
+    },
+    "SessionReportAcknowledgementState": {
+      "enum": [
+        "NOT_ACKNOWLEDGED"
+      ],
+      "title": "SessionReportAcknowledgementState",
+      "type": "string"
+    },
+    "SessionReportSyncMetadata": {
+      "additionalProperties": false,
+      "properties": {
+        "acknowledgement_state": {
+          "$ref": "#/$defs/SessionReportAcknowledgementState"
+        },
+        "local_revision": {
+          "title": "Local Revision",
+          "type": "integer"
+        },
+        "report_revision": {
+          "title": "Report Revision",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "local_revision",
+        "report_revision",
+        "acknowledgement_state"
+      ],
+      "title": "SessionReportSyncMetadata",
+      "type": "object"
+    },
+    "SessionUnresolvedWork": {
+      "additionalProperties": false,
+      "properties": {
+        "component_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Component Id"
+        },
+        "incident_id": {
+          "format": "uuid",
+          "title": "Incident Id",
+          "type": "string"
+        },
+        "state": {
+          "$ref": "#/$defs/IncidentStatus"
+        }
+      },
+      "required": [
+        "incident_id",
+        "state"
+      ],
+      "title": "SessionUnresolvedWork",
+      "type": "object"
+    },
+    "SessionVerificationResult": {
+      "additionalProperties": false,
+      "properties": {
+        "completed_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Completed At"
+        },
+        "evidence_event_ids": {
+          "items": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "title": "Evidence Event Ids",
+          "type": "array"
+        },
+        "incident_id": {
+          "format": "uuid",
+          "title": "Incident Id",
+          "type": "string"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/VerificationRunResult"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "rule_identifier": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rule Identifier"
+        },
+        "started_at": {
+          "format": "date-time",
+          "title": "Started At",
+          "type": "string"
+        },
+        "verification_run_id": {
+          "format": "uuid",
+          "title": "Verification Run Id",
+          "type": "string"
+        },
+        "window_ends_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Window Ends At"
+        }
+      },
+      "required": [
+        "verification_run_id",
+        "incident_id",
+        "started_at",
+        "evidence_event_ids"
+      ],
+      "title": "SessionVerificationResult",
+      "type": "object"
+    },
+    "VerificationRunResult": {
+      "enum": [
+        "SUCCEEDED",
+        "RECURRENCE_DETECTED"
+      ],
+      "title": "VerificationRunResult",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "checksum": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Checksum",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "evidence_manifest": {
+      "$ref": "#/$defs/EvidenceManifest"
+    },
+    "important_text_evidence": {
+      "items": {
+        "$ref": "#/$defs/ImportantTextEvidence"
+      },
+      "title": "Important Text Evidence",
+      "type": "array"
+    },
+    "incident_updates": {
+      "items": {
+        "$ref": "#/$defs/IncidentUpdate"
+      },
+      "title": "Incident Updates",
+      "type": "array"
+    },
+    "local_revision": {
+      "minimum": 1,
+      "title": "Local Revision",
+      "type": "integer"
+    },
+    "machine_session_report": {
+      "$ref": "#/$defs/MachineSessionReport"
+    },
+    "package_id": {
+      "format": "uuid",
+      "title": "Package Id",
+      "type": "string"
+    },
+    "policy_selected_raw_evidence": {
+      "items": {
+        "$ref": "#/$defs/PolicySelectedRawEvidenceReference"
+      },
+      "title": "Policy Selected Raw Evidence",
+      "type": "array"
+    },
+    "report_revision": {
+      "minimum": 1,
+      "title": "Report Revision",
+      "type": "integer"
+    },
+    "schema_version": {
+      "pattern": "^[1-9]\\d*\\.\\d+$",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "session_id": {
+      "format": "uuid",
+      "title": "Session Id",
+      "type": "string"
+    },
+    "source_machine_id": {
+      "format": "uuid",
+      "title": "Source Machine Id",
+      "type": "string"
+    },
+    "source_node_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Source Node Id"
+    }
+  },
+  "required": [
+    "schema_version",
+    "package_id",
+    "source_machine_id",
+    "session_id",
+    "local_revision",
+    "report_revision",
+    "created_at",
+    "machine_session_report",
+    "incident_updates",
+    "evidence_manifest",
+    "checksum"
+  ],
+  "title": "SyncEnvelope",
+  "type": "object"
+}

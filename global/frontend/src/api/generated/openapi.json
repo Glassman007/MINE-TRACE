@@ -1,0 +1,5379 @@
+{
+  "components": {
+    "schemas": {
+      "AIAnalysisFallbackReason": {
+        "enum": [
+          "AI_DISABLED",
+          "AI_PROVIDER_NOT_CONFIGURED",
+          "AI_PROVIDER_UNAVAILABLE",
+          "AI_PROVIDER_ERROR",
+          "AI_TIMEOUT",
+          "MALFORMED_OUTPUT",
+          "UNKNOWN_CITATION",
+          "PROHIBITED_CLAIM",
+          "INSUFFICIENT_EVIDENCE"
+        ],
+        "title": "AIAnalysisFallbackReason",
+        "type": "string"
+      },
+      "AIAnalysisResult": {
+        "additionalProperties": false,
+        "description": "Stable result envelope for validated AI or deterministic fallback.",
+        "properties": {
+          "fallback": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DeterministicAIFallback"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "result_type": {
+            "$ref": "#/components/schemas/AIAnalysisResultType"
+          },
+          "validated_ai": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ValidatedAIAnalysis"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "result_type"
+        ],
+        "title": "AIAnalysisResult",
+        "type": "object"
+      },
+      "AIAnalysisResultType": {
+        "enum": [
+          "VALIDATED_AI",
+          "FALLBACK"
+        ],
+        "title": "AIAnalysisResultType",
+        "type": "string"
+      },
+      "AIClaim": {
+        "additionalProperties": false,
+        "description": "One structurally parsed model claim awaiting guard-layer validation.",
+        "properties": {
+          "claim_type": {
+            "$ref": "#/components/schemas/AIClaimType"
+          },
+          "evidence_ids": {
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "maxItems": 100,
+            "minItems": 1,
+            "title": "Evidence Ids",
+            "type": "array"
+          },
+          "text": {
+            "maxLength": 4000,
+            "minLength": 1,
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "claim_type",
+          "text",
+          "evidence_ids"
+        ],
+        "title": "AIClaim",
+        "type": "object"
+      },
+      "AIClaimType": {
+        "enum": [
+          "EVENT_OCCURRED",
+          "OBSERVATION_RECORDED",
+          "MAINTENANCE_RECORDED",
+          "VERIFICATION_STARTED",
+          "VERIFICATION_PASSED",
+          "VERIFICATION_FAILED",
+          "RECURRENCE_RECORDED",
+          "SIMILAR_HISTORY_FOUND",
+          "CONTEXT_RECORDED",
+          "STATUS_REPORTED"
+        ],
+        "title": "AIClaimType",
+        "type": "string"
+      },
+      "AnalyticsBucketsResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/AnalyticsCountBucket"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "title": "AnalyticsBucketsResponse",
+        "type": "object"
+      },
+      "AnalyticsCountBucket": {
+        "additionalProperties": false,
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "key": {
+            "title": "Key",
+            "type": "string"
+          }
+        },
+        "required": [
+          "key",
+          "count"
+        ],
+        "title": "AnalyticsCountBucket",
+        "type": "object"
+      },
+      "AnalyticsSummaryResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "completed_verification_runs": {
+            "title": "Completed Verification Runs",
+            "type": "integer"
+          },
+          "evidence": {
+            "title": "Evidence",
+            "type": "integer"
+          },
+          "incidents": {
+            "title": "Incidents",
+            "type": "integer"
+          },
+          "machines": {
+            "title": "Machines",
+            "type": "integer"
+          },
+          "maintenance_actions": {
+            "title": "Maintenance Actions",
+            "type": "integer"
+          },
+          "sessions": {
+            "title": "Sessions",
+            "type": "integer"
+          },
+          "sync_conflicts_unresolved": {
+            "title": "Sync Conflicts Unresolved",
+            "type": "integer"
+          },
+          "unresolved_incidents": {
+            "title": "Unresolved Incidents",
+            "type": "integer"
+          },
+          "verification_completion_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Verification Completion Rate"
+          },
+          "verification_runs": {
+            "title": "Verification Runs",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "machines",
+          "sessions",
+          "incidents",
+          "unresolved_incidents",
+          "evidence",
+          "maintenance_actions",
+          "verification_runs",
+          "completed_verification_runs",
+          "sync_conflicts_unresolved"
+        ],
+        "title": "AnalyticsSummaryResponse",
+        "type": "object"
+      },
+      "AnalyticsTrendPoint": {
+        "additionalProperties": false,
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "day": {
+            "title": "Day",
+            "type": "string"
+          }
+        },
+        "required": [
+          "day",
+          "count"
+        ],
+        "title": "AnalyticsTrendPoint",
+        "type": "object"
+      },
+      "AnalyticsTrendResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/AnalyticsTrendPoint"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "title": "AnalyticsTrendResponse",
+        "type": "object"
+      },
+      "BundleEvidenceItem": {
+        "additionalProperties": false,
+        "properties": {
+          "anchor_evidence_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Anchor Evidence Id"
+          },
+          "canonical_event_type": {
+            "title": "Canonical Event Type",
+            "type": "string"
+          },
+          "canonical_payload": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "title": "Canonical Payload",
+            "type": "object"
+          },
+          "component_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Component Id"
+          },
+          "deterministic_rule_identifier": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deterministic Rule Identifier"
+          },
+          "evidence_id": {
+            "format": "uuid",
+            "title": "Evidence Id",
+            "type": "string"
+          },
+          "inclusion_reason": {
+            "title": "Inclusion Reason",
+            "type": "string"
+          },
+          "ingestion_timestamp": {
+            "format": "date-time",
+            "title": "Ingestion Timestamp",
+            "type": "string"
+          },
+          "machine_id": {
+            "format": "uuid",
+            "title": "Machine Id",
+            "type": "string"
+          },
+          "original_source_record_id": {
+            "title": "Original Source Record Id",
+            "type": "string"
+          },
+          "original_timestamp": {
+            "format": "date-time",
+            "title": "Original Timestamp",
+            "type": "string"
+          },
+          "provenance": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "title": "Provenance",
+            "type": "object"
+          },
+          "raw_source_payload": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "title": "Raw Source Payload",
+            "type": "object"
+          },
+          "relationship_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/IncidentEvidenceRelationshipType"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "similarity_score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Similarity Score"
+          },
+          "source_classification": {
+            "$ref": "#/components/schemas/EvidenceBundleSourceClassification"
+          },
+          "source_type": {
+            "title": "Source Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "evidence_id",
+          "machine_id",
+          "component_id",
+          "source_type",
+          "original_source_record_id",
+          "original_timestamp",
+          "ingestion_timestamp",
+          "canonical_event_type",
+          "canonical_payload",
+          "raw_source_payload",
+          "provenance",
+          "source_classification",
+          "inclusion_reason"
+        ],
+        "title": "BundleEvidenceItem",
+        "type": "object"
+      },
+      "CapabilityStatus": {
+        "enum": [
+          "AVAILABLE",
+          "DISABLED",
+          "UNAVAILABLE"
+        ],
+        "title": "CapabilityStatus",
+        "type": "string"
+      },
+      "ComponentResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "component_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Component Type"
+          },
+          "display_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Display Name"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "machine_id": {
+            "format": "uuid",
+            "title": "Machine Id",
+            "type": "string"
+          },
+          "manufacturer": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Manufacturer"
+          },
+          "model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model"
+          }
+        },
+        "required": [
+          "id",
+          "machine_id"
+        ],
+        "title": "ComponentResponse",
+        "type": "object"
+      },
+      "ContextDimensionInput": {
+        "additionalProperties": false,
+        "properties": {
+          "freshness_basis": {
+            "minLength": 1,
+            "title": "Freshness Basis",
+            "type": "string"
+          },
+          "quality": {
+            "$ref": "#/components/schemas/ContextQuality"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/JsonValue"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "value",
+          "quality",
+          "freshness_basis"
+        ],
+        "title": "ContextDimensionInput",
+        "type": "object"
+      },
+      "ContextQuality": {
+        "enum": [
+          "KNOWN",
+          "UNKNOWN",
+          "STALE"
+        ],
+        "title": "ContextQuality",
+        "type": "string"
+      },
+      "ContextSnapshotInput": {
+        "additionalProperties": false,
+        "description": "Fixed evidence-time context dimensions.\n\n``freshness_basis`` is intentionally an opaque, non-empty source-provided\nstring because the specification requires the basis to be preserved but does\nnot define a controlled vocabulary or timestamp-only representation.",
+        "properties": {
+          "environment": {
+            "$ref": "#/components/schemas/ContextDimensionInput"
+          },
+          "location": {
+            "$ref": "#/components/schemas/ContextDimensionInput"
+          },
+          "machine_operating_state": {
+            "$ref": "#/components/schemas/ContextDimensionInput"
+          },
+          "shift": {
+            "$ref": "#/components/schemas/ContextDimensionInput"
+          },
+          "workload": {
+            "$ref": "#/components/schemas/ContextDimensionInput"
+          }
+        },
+        "required": [
+          "shift",
+          "location",
+          "machine_operating_state",
+          "workload",
+          "environment"
+        ],
+        "title": "ContextSnapshotInput",
+        "type": "object"
+      },
+      "ContextSnapshotOutput": {
+        "additionalProperties": false,
+        "properties": {
+          "context": {
+            "$ref": "#/components/schemas/ContextSnapshotInput"
+          },
+          "evidence_id": {
+            "format": "uuid",
+            "title": "Evidence Id",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "evidence_id",
+          "context"
+        ],
+        "title": "ContextSnapshotOutput",
+        "type": "object"
+      },
+      "DeterministicAIFallback": {
+        "additionalProperties": false,
+        "description": "Typed non-model result assembled only from the EvidenceBundle.",
+        "properties": {
+          "evidence_bundle_status": {
+            "$ref": "#/components/schemas/EvidenceBundleStatus"
+          },
+          "exact_history": {
+            "items": {
+              "$ref": "#/components/schemas/FallbackEvidenceFact"
+            },
+            "title": "Exact History",
+            "type": "array"
+          },
+          "incident_id": {
+            "format": "uuid",
+            "title": "Incident Id",
+            "type": "string"
+          },
+          "primary_evidence": {
+            "items": {
+              "$ref": "#/components/schemas/FallbackEvidenceFact"
+            },
+            "title": "Primary Evidence",
+            "type": "array"
+          },
+          "reason": {
+            "$ref": "#/components/schemas/AIAnalysisFallbackReason"
+          },
+          "reason_detail": {
+            "title": "Reason Detail",
+            "type": "string"
+          },
+          "semantic_history": {
+            "$ref": "#/components/schemas/SemanticEnrichmentSummary"
+          },
+          "verification": {
+            "items": {
+              "$ref": "#/components/schemas/FallbackVerificationFact"
+            },
+            "title": "Verification",
+            "type": "array"
+          }
+        },
+        "required": [
+          "reason",
+          "reason_detail",
+          "incident_id",
+          "evidence_bundle_status",
+          "primary_evidence",
+          "exact_history",
+          "semantic_history",
+          "verification"
+        ],
+        "title": "DeterministicAIFallback",
+        "type": "object"
+      },
+      "EvidenceBundleCompleteness": {
+        "additionalProperties": false,
+        "properties": {
+          "canonical_readiness_policy": {
+            "title": "Canonical Readiness Policy",
+            "type": "string"
+          },
+          "incomplete_sections": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceBundleSection"
+            },
+            "title": "Incomplete Sections",
+            "type": "array"
+          },
+          "semantic_retrieval": {
+            "$ref": "#/components/schemas/SemanticRetrievalMetadata"
+          },
+          "status_reason": {
+            "title": "Status Reason",
+            "type": "string"
+          },
+          "truncated_sections": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceBundleSection"
+            },
+            "title": "Truncated Sections",
+            "type": "array"
+          }
+        },
+        "required": [
+          "canonical_readiness_policy",
+          "status_reason",
+          "semantic_retrieval"
+        ],
+        "title": "EvidenceBundleCompleteness",
+        "type": "object"
+      },
+      "EvidenceBundleResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "completeness": {
+            "$ref": "#/components/schemas/EvidenceBundleCompleteness"
+          },
+          "evidence_time_context_snapshots": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceTimeContextItem"
+            },
+            "title": "Evidence Time Context Snapshots",
+            "type": "array"
+          },
+          "incident_id": {
+            "format": "uuid",
+            "title": "Incident Id",
+            "type": "string"
+          },
+          "primary_incident_evidence": {
+            "items": {
+              "$ref": "#/components/schemas/BundleEvidenceItem"
+            },
+            "title": "Primary Incident Evidence",
+            "type": "array"
+          },
+          "provenance_index": {
+            "items": {
+              "$ref": "#/components/schemas/ProvenanceIndexItem"
+            },
+            "title": "Provenance Index",
+            "type": "array"
+          },
+          "selected_exact_history": {
+            "items": {
+              "$ref": "#/components/schemas/BundleEvidenceItem"
+            },
+            "title": "Selected Exact History",
+            "type": "array"
+          },
+          "selected_semantic_history": {
+            "items": {
+              "$ref": "#/components/schemas/BundleEvidenceItem"
+            },
+            "title": "Selected Semantic History",
+            "type": "array"
+          },
+          "status": {
+            "$ref": "#/components/schemas/EvidenceBundleStatus"
+          },
+          "verification_context": {
+            "items": {
+              "$ref": "#/components/schemas/VerificationContextItem"
+            },
+            "title": "Verification Context",
+            "type": "array"
+          }
+        },
+        "required": [
+          "incident_id",
+          "status",
+          "primary_incident_evidence",
+          "selected_exact_history",
+          "selected_semantic_history",
+          "verification_context",
+          "evidence_time_context_snapshots",
+          "provenance_index",
+          "completeness"
+        ],
+        "title": "EvidenceBundleResponse",
+        "type": "object"
+      },
+      "EvidenceBundleSection": {
+        "enum": [
+          "PRIMARY_INCIDENT_EVIDENCE",
+          "SELECTED_EXACT_HISTORY",
+          "SELECTED_SEMANTIC_HISTORY",
+          "VERIFICATION_CONTEXT",
+          "EVIDENCE_TIME_CONTEXT_SNAPSHOTS",
+          "PROVENANCE_INDEX"
+        ],
+        "title": "EvidenceBundleSection",
+        "type": "string"
+      },
+      "EvidenceBundleSourceClassification": {
+        "enum": [
+          "PRIMARY_INCIDENT_EVIDENCE",
+          "EXACT_HISTORY",
+          "SEMANTIC_HISTORY"
+        ],
+        "title": "EvidenceBundleSourceClassification",
+        "type": "string"
+      },
+      "EvidenceBundleStatus": {
+        "enum": [
+          "READY",
+          "PARTIAL",
+          "INSUFFICIENT_EVIDENCE"
+        ],
+        "title": "EvidenceBundleStatus",
+        "type": "string"
+      },
+      "EvidenceTimeContextItem": {
+        "additionalProperties": false,
+        "properties": {
+          "context_snapshots": {
+            "items": {
+              "$ref": "#/components/schemas/ContextSnapshotOutput"
+            },
+            "title": "Context Snapshots",
+            "type": "array"
+          },
+          "evidence_id": {
+            "format": "uuid",
+            "title": "Evidence Id",
+            "type": "string"
+          },
+          "source_classification": {
+            "$ref": "#/components/schemas/EvidenceBundleSourceClassification"
+          }
+        },
+        "required": [
+          "evidence_id",
+          "source_classification"
+        ],
+        "title": "EvidenceTimeContextItem",
+        "type": "object"
+      },
+      "FallbackEvidenceFact": {
+        "additionalProperties": false,
+        "description": "Canonical fact copied from a sealed EvidenceBundle.\n\nSimilarity metadata is intentionally omitted here. The deterministic\nfallback communicates canonical evidence facts, not model confidence or\nsemantic-equivalence probabilities.",
+        "properties": {
+          "canonical_event_type": {
+            "title": "Canonical Event Type",
+            "type": "string"
+          },
+          "canonical_payload": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "title": "Canonical Payload",
+            "type": "object"
+          },
+          "component_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Component Id"
+          },
+          "evidence_id": {
+            "format": "uuid",
+            "title": "Evidence Id",
+            "type": "string"
+          },
+          "evidence_type": {
+            "title": "Evidence Type",
+            "type": "string"
+          },
+          "machine_id": {
+            "format": "uuid",
+            "title": "Machine Id",
+            "type": "string"
+          },
+          "original_timestamp": {
+            "format": "date-time",
+            "title": "Original Timestamp",
+            "type": "string"
+          },
+          "provenance": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "title": "Provenance",
+            "type": "object"
+          },
+          "source_classification": {
+            "$ref": "#/components/schemas/EvidenceBundleSourceClassification"
+          }
+        },
+        "required": [
+          "evidence_id",
+          "machine_id",
+          "component_id",
+          "evidence_type",
+          "canonical_event_type",
+          "original_timestamp",
+          "canonical_payload",
+          "provenance",
+          "source_classification"
+        ],
+        "title": "FallbackEvidenceFact",
+        "type": "object"
+      },
+      "FallbackVerificationFact": {
+        "additionalProperties": false,
+        "properties": {
+          "completed_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Completed At"
+          },
+          "evidence_ids": {
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "title": "Evidence Ids",
+            "type": "array"
+          },
+          "result": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/VerificationRunResult"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "rule_identifier": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rule Identifier"
+          },
+          "rule_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rule Name"
+          },
+          "rule_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/VerificationRuleType"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "started_at": {
+            "format": "date-time",
+            "title": "Started At",
+            "type": "string"
+          },
+          "verification_run_id": {
+            "format": "uuid",
+            "title": "Verification Run Id",
+            "type": "string"
+          },
+          "window_ends_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Window Ends At"
+          }
+        },
+        "required": [
+          "verification_run_id",
+          "rule_identifier",
+          "rule_name",
+          "rule_type",
+          "result",
+          "started_at",
+          "window_ends_at",
+          "completed_at"
+        ],
+        "title": "FallbackVerificationFact",
+        "type": "object"
+      },
+      "FleetAIAnalysisRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "incident_ids": {
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "maxItems": 100,
+            "title": "Incident Ids",
+            "type": "array"
+          },
+          "machine_ids": {
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "maxItems": 100,
+            "title": "Machine Ids",
+            "type": "array"
+          },
+          "prompt": {
+            "maxLength": 8000,
+            "minLength": 1,
+            "title": "Prompt",
+            "type": "string"
+          },
+          "semantic_query": {
+            "anyOf": [
+              {
+                "maxLength": 4000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Semantic Query"
+          },
+          "semantic_top_k": {
+            "default": 5,
+            "maximum": 20.0,
+            "minimum": 1.0,
+            "title": "Semantic Top K",
+            "type": "integer"
+          },
+          "session_ids": {
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "maxItems": 100,
+            "title": "Session Ids",
+            "type": "array"
+          }
+        },
+        "required": [
+          "prompt"
+        ],
+        "title": "FleetAIAnalysisRequest",
+        "type": "object"
+      },
+      "FleetAIAnalysisResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "citations": {
+            "items": {
+              "$ref": "#/components/schemas/FleetAICitation"
+            },
+            "title": "Citations",
+            "type": "array"
+          },
+          "claims": {
+            "items": {
+              "$ref": "#/components/schemas/AIClaim"
+            },
+            "title": "Claims",
+            "type": "array"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Limitations",
+            "type": "array"
+          },
+          "model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model"
+          },
+          "provider": {
+            "default": "groq",
+            "title": "Provider",
+            "type": "string"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          },
+          "state": {
+            "$ref": "#/components/schemas/FleetAIState"
+          },
+          "summary": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Summary"
+          }
+        },
+        "required": [
+          "state"
+        ],
+        "title": "FleetAIAnalysisResponse",
+        "type": "object"
+      },
+      "FleetAICitation": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence_id": {
+            "format": "uuid",
+            "title": "Evidence Id",
+            "type": "string"
+          },
+          "provenance": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "title": "Provenance",
+            "type": "object"
+          }
+        },
+        "required": [
+          "evidence_id",
+          "provenance"
+        ],
+        "title": "FleetAICitation",
+        "type": "object"
+      },
+      "FleetAIState": {
+        "enum": [
+          "AVAILABLE",
+          "DEGRADED"
+        ],
+        "title": "FleetAIState",
+        "type": "string"
+      },
+      "FleetIncidentCollectionResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/FleetIncidentItem"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "offset",
+          "limit"
+        ],
+        "title": "FleetIncidentCollectionResponse",
+        "type": "object"
+      },
+      "FleetIncidentItem": {
+        "additionalProperties": false,
+        "properties": {
+          "component_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Component Id"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "due_state": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Due State"
+          },
+          "due_time": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Due Time"
+          },
+          "first_seen_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "First Seen At"
+          },
+          "incident_id": {
+            "format": "uuid",
+            "title": "Incident Id",
+            "type": "string"
+          },
+          "last_seen_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Seen At"
+          },
+          "machine_id": {
+            "format": "uuid",
+            "title": "Machine Id",
+            "type": "string"
+          },
+          "machine_model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Machine Model"
+          },
+          "owner_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Owner Ref"
+          },
+          "severity": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Severity"
+          },
+          "site_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Site Name"
+          },
+          "source_report_revision": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Report Revision"
+          },
+          "status": {
+            "$ref": "#/components/schemas/IncidentStatus"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "title": "Updated At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "incident_id",
+          "machine_id",
+          "status",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "FleetIncidentItem",
+        "type": "object"
+      },
+      "FleetMachineCollectionResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/FleetMachineItem"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "offset",
+          "limit"
+        ],
+        "title": "FleetMachineCollectionResponse",
+        "type": "object"
+      },
+      "FleetMachineItem": {
+        "additionalProperties": false,
+        "properties": {
+          "asset_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Asset Code"
+          },
+          "display_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Display Name"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "latest_acknowledged_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latest Acknowledged At"
+          },
+          "latest_acknowledgement_status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latest Acknowledgement Status"
+          },
+          "latest_report_revision": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latest Report Revision"
+          },
+          "latest_sync_received_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latest Sync Received At"
+          },
+          "machine_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Machine Type"
+          },
+          "manufacturer": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Manufacturer"
+          },
+          "model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model"
+          },
+          "site_area": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Site Area"
+          },
+          "site_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Site Name"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "title": "FleetMachineItem",
+        "type": "object"
+      },
+      "FleetOverviewResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "acknowledgement_status_counts": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "Acknowledgement Status Counts",
+            "type": "object"
+          },
+          "fleet_machine_count": {
+            "title": "Fleet Machine Count",
+            "type": "integer"
+          },
+          "latest_acknowledged_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latest Acknowledged At"
+          },
+          "latest_sync_received_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latest Sync Received At"
+          },
+          "recent_sessions": {
+            "items": {
+              "$ref": "#/components/schemas/FleetSessionItem"
+            },
+            "title": "Recent Sessions",
+            "type": "array"
+          },
+          "unresolved_incident_count": {
+            "title": "Unresolved Incident Count",
+            "type": "integer"
+          },
+          "unresolved_sync_conflicts": {
+            "title": "Unresolved Sync Conflicts",
+            "type": "integer"
+          },
+          "verification_states": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "Verification States",
+            "type": "object"
+          }
+        },
+        "required": [
+          "fleet_machine_count",
+          "recent_sessions",
+          "unresolved_incident_count",
+          "verification_states",
+          "acknowledgement_status_counts",
+          "unresolved_sync_conflicts"
+        ],
+        "title": "FleetOverviewResponse",
+        "type": "object"
+      },
+      "FleetSemanticSearchRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "component_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Component Id"
+          },
+          "end": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End"
+          },
+          "machine_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Machine Id"
+          },
+          "machine_type": {
+            "anyOf": [
+              {
+                "maxLength": 128,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Machine Type"
+          },
+          "model": {
+            "anyOf": [
+              {
+                "maxLength": 255,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model"
+          },
+          "query": {
+            "maxLength": 4000,
+            "minLength": 1,
+            "title": "Query",
+            "type": "string"
+          },
+          "site": {
+            "anyOf": [
+              {
+                "maxLength": 255,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Site"
+          },
+          "start": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start"
+          },
+          "top_k": {
+            "default": 10,
+            "maximum": 100.0,
+            "minimum": 1.0,
+            "title": "Top K",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "title": "FleetSemanticSearchRequest",
+        "type": "object"
+      },
+      "FleetSemanticSearchResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          },
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/FleetSemanticSearchResult"
+            },
+            "title": "Results",
+            "type": "array"
+          },
+          "state": {
+            "$ref": "#/components/schemas/SemanticSearchState"
+          }
+        },
+        "required": [
+          "state"
+        ],
+        "title": "FleetSemanticSearchResponse",
+        "type": "object"
+      },
+      "FleetSemanticSearchResult": {
+        "additionalProperties": false,
+        "properties": {
+          "canonical_event_type": {
+            "title": "Canonical Event Type",
+            "type": "string"
+          },
+          "canonical_payload": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "title": "Canonical Payload",
+            "type": "object"
+          },
+          "component_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Component Id"
+          },
+          "evidence_id": {
+            "format": "uuid",
+            "title": "Evidence Id",
+            "type": "string"
+          },
+          "incident_ids": {
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "title": "Incident Ids",
+            "type": "array"
+          },
+          "ingestion_timestamp": {
+            "format": "date-time",
+            "title": "Ingestion Timestamp",
+            "type": "string"
+          },
+          "machine_id": {
+            "format": "uuid",
+            "title": "Machine Id",
+            "type": "string"
+          },
+          "machine_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Machine Type"
+          },
+          "match_type": {
+            "$ref": "#/components/schemas/SemanticMatchType",
+            "default": "SEMANTIC_SIMILARITY"
+          },
+          "model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model"
+          },
+          "original_timestamp": {
+            "format": "date-time",
+            "title": "Original Timestamp",
+            "type": "string"
+          },
+          "provenance": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "title": "Provenance",
+            "type": "object"
+          },
+          "session_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Session Id"
+          },
+          "similarity_score": {
+            "title": "Similarity Score",
+            "type": "number"
+          },
+          "site": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Site"
+          },
+          "source_type": {
+            "title": "Source Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "similarity_score",
+          "evidence_id",
+          "machine_id",
+          "component_id",
+          "session_id",
+          "incident_ids",
+          "machine_type",
+          "model",
+          "site",
+          "source_type",
+          "original_timestamp",
+          "ingestion_timestamp",
+          "canonical_event_type",
+          "canonical_payload",
+          "provenance"
+        ],
+        "title": "FleetSemanticSearchResult",
+        "type": "object"
+      },
+      "FleetSessionItem": {
+        "additionalProperties": false,
+        "properties": {
+          "ended_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ended At"
+          },
+          "ingested_at": {
+            "format": "date-time",
+            "title": "Ingested At",
+            "type": "string"
+          },
+          "latest_report_revision": {
+            "title": "Latest Report Revision",
+            "type": "integer"
+          },
+          "machine_id": {
+            "format": "uuid",
+            "title": "Machine Id",
+            "type": "string"
+          },
+          "operating_hours": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Operating Hours"
+          },
+          "session_id": {
+            "format": "uuid",
+            "title": "Session Id",
+            "type": "string"
+          },
+          "started_at": {
+            "format": "date-time",
+            "title": "Started At",
+            "type": "string"
+          },
+          "state": {
+            "title": "State",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "title": "Updated At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "session_id",
+          "machine_id",
+          "started_at",
+          "state",
+          "latest_report_revision",
+          "ingested_at",
+          "updated_at"
+        ],
+        "title": "FleetSessionItem",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "HealthResponse": {
+        "properties": {
+          "database": {
+            "const": "ok",
+            "default": "ok",
+            "title": "Database",
+            "type": "string"
+          },
+          "database_role": {
+            "const": "canonical_postgresql",
+            "default": "canonical_postgresql",
+            "title": "Database Role",
+            "type": "string"
+          },
+          "status": {
+            "const": "ok",
+            "default": "ok",
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "title": "HealthResponse",
+        "type": "object"
+      },
+      "IncidentAuditAction": {
+        "enum": [
+          "INCIDENT_CREATED",
+          "EVIDENCE_LINKED",
+          "EVIDENCE_UNLINKED",
+          "INCIDENT_SPLIT",
+          "STATUS_CHANGED",
+          "OWNER_CHANGED",
+          "SEVERITY_CHANGED",
+          "DUE_STATE_CHANGED",
+          "DUE_TIME_CHANGED",
+          "RECURRENCE_RECORDED",
+          "HANDOVER_ACKNOWLEDGED"
+        ],
+        "title": "IncidentAuditAction",
+        "type": "string"
+      },
+      "IncidentAuditOutput": {
+        "additionalProperties": false,
+        "properties": {
+          "action": {
+            "$ref": "#/components/schemas/IncidentAuditAction"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "occurred_at": {
+            "format": "date-time",
+            "title": "Occurred At",
+            "type": "string"
+          },
+          "payload": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "title": "Payload",
+            "type": "object"
+          }
+        },
+        "required": [
+          "id",
+          "action",
+          "occurred_at",
+          "payload"
+        ],
+        "title": "IncidentAuditOutput",
+        "type": "object"
+      },
+      "IncidentAuditResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "audit_events": {
+            "items": {
+              "$ref": "#/components/schemas/IncidentAuditOutput"
+            },
+            "title": "Audit Events",
+            "type": "array"
+          },
+          "incident_id": {
+            "format": "uuid",
+            "title": "Incident Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "incident_id",
+          "audit_events"
+        ],
+        "title": "IncidentAuditResponse",
+        "type": "object"
+      },
+      "IncidentDetailResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "audit_events": {
+            "items": {
+              "$ref": "#/components/schemas/IncidentAuditOutput"
+            },
+            "title": "Audit Events",
+            "type": "array"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "due_state": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Due State"
+          },
+          "due_time": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Due Time"
+          },
+          "incident_id": {
+            "format": "uuid",
+            "title": "Incident Id",
+            "type": "string"
+          },
+          "machine_id": {
+            "format": "uuid",
+            "title": "Machine Id",
+            "type": "string"
+          },
+          "owner_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Owner Ref"
+          },
+          "severity": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Severity"
+          },
+          "status": {
+            "$ref": "#/components/schemas/IncidentStatus"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "title": "Updated At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "incident_id",
+          "machine_id",
+          "status",
+          "owner_ref",
+          "severity",
+          "due_state",
+          "due_time",
+          "created_at",
+          "updated_at",
+          "audit_events"
+        ],
+        "title": "IncidentDetailResponse",
+        "type": "object"
+      },
+      "IncidentEvidenceItem": {
+        "additionalProperties": false,
+        "properties": {
+          "canonical_event_type": {
+            "title": "Canonical Event Type",
+            "type": "string"
+          },
+          "canonical_payload": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "title": "Canonical Payload",
+            "type": "object"
+          },
+          "component_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Component Id"
+          },
+          "deterministic_rule_identifier": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deterministic Rule Identifier"
+          },
+          "evidence_id": {
+            "format": "uuid",
+            "title": "Evidence Id",
+            "type": "string"
+          },
+          "is_active": {
+            "title": "Is Active",
+            "type": "boolean"
+          },
+          "link_id": {
+            "format": "uuid",
+            "title": "Link Id",
+            "type": "string"
+          },
+          "link_reason": {
+            "title": "Link Reason",
+            "type": "string"
+          },
+          "linked_at": {
+            "format": "date-time",
+            "title": "Linked At",
+            "type": "string"
+          },
+          "machine_id": {
+            "format": "uuid",
+            "title": "Machine Id",
+            "type": "string"
+          },
+          "original_source_record_id": {
+            "title": "Original Source Record Id",
+            "type": "string"
+          },
+          "original_timestamp": {
+            "format": "date-time",
+            "title": "Original Timestamp",
+            "type": "string"
+          },
+          "provenance": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "title": "Provenance",
+            "type": "object"
+          },
+          "raw_source_payload": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "title": "Raw Source Payload",
+            "type": "object"
+          },
+          "relationship_type": {
+            "$ref": "#/components/schemas/IncidentEvidenceRelationshipType"
+          },
+          "source_type": {
+            "title": "Source Type",
+            "type": "string"
+          },
+          "unlinked_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unlinked At"
+          }
+        },
+        "required": [
+          "link_id",
+          "evidence_id",
+          "is_active",
+          "relationship_type",
+          "deterministic_rule_identifier",
+          "link_reason",
+          "linked_at",
+          "unlinked_at",
+          "machine_id",
+          "component_id",
+          "source_type",
+          "original_source_record_id",
+          "original_timestamp",
+          "canonical_event_type",
+          "canonical_payload",
+          "raw_source_payload",
+          "provenance"
+        ],
+        "title": "IncidentEvidenceItem",
+        "type": "object"
+      },
+      "IncidentEvidenceRelationshipType": {
+        "description": "Controlled MVP vocabulary for why evidence is attached to an incident.\n\nRELATED is intentionally broad because the specification does not yet define\nfiner evidence roles. RECURRENCE and VERIFICATION are kept explicit because\nthey have lifecycle meaning in the MVP requirements.",
+        "enum": [
+          "RELATED",
+          "RECURRENCE",
+          "VERIFICATION"
+        ],
+        "title": "IncidentEvidenceRelationshipType",
+        "type": "string"
+      },
+      "IncidentEvidenceResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/IncidentEvidenceItem"
+            },
+            "title": "Evidence",
+            "type": "array"
+          },
+          "incident_id": {
+            "format": "uuid",
+            "title": "Incident Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "incident_id",
+          "evidence"
+        ],
+        "title": "IncidentEvidenceResponse",
+        "type": "object"
+      },
+      "IncidentMaintenanceActionItem": {
+        "additionalProperties": false,
+        "properties": {
+          "action_id": {
+            "format": "uuid",
+            "title": "Action Id",
+            "type": "string"
+          },
+          "action_type": {
+            "title": "Action Type",
+            "type": "string"
+          },
+          "component_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Component Id"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "incident_id": {
+            "format": "uuid",
+            "title": "Incident Id",
+            "type": "string"
+          },
+          "ingestion_timestamp": {
+            "format": "date-time",
+            "title": "Ingestion Timestamp",
+            "type": "string"
+          },
+          "machine_id": {
+            "format": "uuid",
+            "title": "Machine Id",
+            "type": "string"
+          },
+          "original_timestamp": {
+            "format": "date-time",
+            "title": "Original Timestamp",
+            "type": "string"
+          },
+          "provenance": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "title": "Provenance",
+            "type": "object"
+          },
+          "session_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Session Id"
+          },
+          "source_report_revision": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Report Revision"
+          }
+        },
+        "required": [
+          "action_id",
+          "machine_id",
+          "incident_id",
+          "session_id",
+          "component_id",
+          "action_type",
+          "description",
+          "original_timestamp",
+          "ingestion_timestamp",
+          "source_report_revision",
+          "provenance"
+        ],
+        "title": "IncidentMaintenanceActionItem",
+        "type": "object"
+      },
+      "IncidentMaintenanceActionsResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "actions": {
+            "items": {
+              "$ref": "#/components/schemas/IncidentMaintenanceActionItem"
+            },
+            "title": "Actions",
+            "type": "array"
+          },
+          "incident_id": {
+            "format": "uuid",
+            "title": "Incident Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "incident_id",
+          "actions"
+        ],
+        "title": "IncidentMaintenanceActionsResponse",
+        "type": "object"
+      },
+      "IncidentStatus": {
+        "enum": [
+          "OPEN",
+          "VERIFYING",
+          "VERIFIED",
+          "RECURRED"
+        ],
+        "title": "IncidentStatus",
+        "type": "string"
+      },
+      "JsonValue": {},
+      "MLAICapabilityReport": {
+        "additionalProperties": false,
+        "description": "Operational status only; canonical application health remains separate.",
+        "properties": {
+          "ai_provider": {
+            "$ref": "#/components/schemas/OperationalCapability"
+          },
+          "embedding_provider": {
+            "$ref": "#/components/schemas/OperationalCapability"
+          },
+          "qdrant_semantic": {
+            "$ref": "#/components/schemas/OperationalCapability"
+          },
+          "signals": {
+            "$ref": "#/components/schemas/MLAIOperationalSignals"
+          }
+        },
+        "required": [
+          "qdrant_semantic",
+          "embedding_provider",
+          "ai_provider",
+          "signals"
+        ],
+        "title": "MLAICapabilityReport",
+        "type": "object"
+      },
+      "MLAIOperationalSignals": {
+        "additionalProperties": false,
+        "properties": {
+          "ai_citation_rejections": {
+            "minimum": 0.0,
+            "title": "Ai Citation Rejections",
+            "type": "integer"
+          },
+          "ai_claim_policy_rejections": {
+            "minimum": 0.0,
+            "title": "Ai Claim Policy Rejections",
+            "type": "integer"
+          },
+          "ai_provider_errors": {
+            "minimum": 0.0,
+            "title": "Ai Provider Errors",
+            "type": "integer"
+          },
+          "ai_provider_successes": {
+            "minimum": 0.0,
+            "title": "Ai Provider Successes",
+            "type": "integer"
+          },
+          "ai_provider_timeouts": {
+            "minimum": 0.0,
+            "title": "Ai Provider Timeouts",
+            "type": "integer"
+          },
+          "ai_schema_rejections": {
+            "minimum": 0.0,
+            "title": "Ai Schema Rejections",
+            "type": "integer"
+          },
+          "embedding_provider_failures": {
+            "minimum": 0.0,
+            "title": "Embedding Provider Failures",
+            "type": "integer"
+          },
+          "embedding_provider_successes": {
+            "minimum": 0.0,
+            "title": "Embedding Provider Successes",
+            "type": "integer"
+          },
+          "fallback_reasons": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "Fallback Reasons",
+            "type": "object"
+          },
+          "indexing_failures": {
+            "minimum": 0.0,
+            "title": "Indexing Failures",
+            "type": "integer"
+          },
+          "last_qdrant_search_latency_ms": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Qdrant Search Latency Ms"
+          },
+          "qdrant_connectivity_failures": {
+            "minimum": 0.0,
+            "title": "Qdrant Connectivity Failures",
+            "type": "integer"
+          },
+          "qdrant_search_count": {
+            "minimum": 0.0,
+            "title": "Qdrant Search Count",
+            "type": "integer"
+          },
+          "qdrant_search_failures": {
+            "minimum": 0.0,
+            "title": "Qdrant Search Failures",
+            "type": "integer"
+          },
+          "stale_qdrant_reference_count": {
+            "minimum": 0.0,
+            "title": "Stale Qdrant Reference Count",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "qdrant_connectivity_failures",
+          "qdrant_search_count",
+          "qdrant_search_failures",
+          "embedding_provider_failures",
+          "embedding_provider_successes",
+          "indexing_failures",
+          "stale_qdrant_reference_count",
+          "ai_provider_timeouts",
+          "ai_provider_errors",
+          "ai_provider_successes",
+          "ai_schema_rejections",
+          "ai_citation_rejections",
+          "ai_claim_policy_rejections",
+          "fallback_reasons"
+        ],
+        "title": "MLAIOperationalSignals",
+        "type": "object"
+      },
+      "MachineComponentsResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "components": {
+            "items": {
+              "$ref": "#/components/schemas/ComponentResponse"
+            },
+            "title": "Components",
+            "type": "array"
+          },
+          "machine_id": {
+            "format": "uuid",
+            "title": "Machine Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "machine_id",
+          "components"
+        ],
+        "title": "MachineComponentsResponse",
+        "type": "object"
+      },
+      "MachineSessionsResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/FleetSessionItem"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "machine_id": {
+            "format": "uuid",
+            "title": "Machine Id",
+            "type": "string"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "machine_id",
+          "items",
+          "total",
+          "offset",
+          "limit"
+        ],
+        "title": "MachineSessionsResponse",
+        "type": "object"
+      },
+      "MachineSyncHealthItem": {
+        "additionalProperties": false,
+        "properties": {
+          "acknowledgement_status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Acknowledgement Status"
+          },
+          "age_seconds": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Age Seconds"
+          },
+          "latest_acknowledged_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latest Acknowledged At"
+          },
+          "latest_receipt_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latest Receipt Id"
+          },
+          "latest_received_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latest Received At"
+          },
+          "latest_report_revision": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latest Report Revision"
+          },
+          "latest_session_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latest Session Id"
+          },
+          "machine_id": {
+            "format": "uuid",
+            "title": "Machine Id",
+            "type": "string"
+          },
+          "stale": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Stale"
+          },
+          "unresolved_conflicts": {
+            "title": "Unresolved Conflicts",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "machine_id",
+          "unresolved_conflicts"
+        ],
+        "title": "MachineSyncHealthItem",
+        "type": "object"
+      },
+      "MaintenanceQueueItem": {
+        "additionalProperties": false,
+        "properties": {
+          "component_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Component Id"
+          },
+          "due_state": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Due State"
+          },
+          "due_time": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Due Time"
+          },
+          "incident_id": {
+            "format": "uuid",
+            "title": "Incident Id",
+            "type": "string"
+          },
+          "incident_status": {
+            "$ref": "#/components/schemas/IncidentStatus"
+          },
+          "latest_maintenance_action_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latest Maintenance Action Id"
+          },
+          "latest_maintenance_action_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latest Maintenance Action Type"
+          },
+          "latest_maintenance_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latest Maintenance At"
+          },
+          "latest_verification_completed_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latest Verification Completed At"
+          },
+          "latest_verification_result": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/VerificationRunResult"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "latest_verification_run_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latest Verification Run Id"
+          },
+          "machine_id": {
+            "format": "uuid",
+            "title": "Machine Id",
+            "type": "string"
+          },
+          "machine_model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Machine Model"
+          },
+          "site_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Site Name"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "verification_required": {
+            "title": "Verification Required",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "incident_id",
+          "machine_id",
+          "incident_status",
+          "verification_required",
+          "updated_at"
+        ],
+        "title": "MaintenanceQueueItem",
+        "type": "object"
+      },
+      "MaintenanceQueueResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/MaintenanceQueueItem"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          },
+          "ordering": {
+            "default": "due_time_nulls_last,due_time_asc,updated_at_asc,incident_id_asc",
+            "title": "Ordering",
+            "type": "string"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "offset",
+          "limit"
+        ],
+        "title": "MaintenanceQueueResponse",
+        "type": "object"
+      },
+      "OperationalCapability": {
+        "additionalProperties": false,
+        "properties": {
+          "model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model"
+          },
+          "provider": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Provider"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          },
+          "status": {
+            "$ref": "#/components/schemas/CapabilityStatus"
+          },
+          "verified_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Verified At"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "title": "OperationalCapability",
+        "type": "object"
+      },
+      "OptionalCapabilityState": {
+        "additionalProperties": false,
+        "properties": {
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "title": "OptionalCapabilityState",
+        "type": "object"
+      },
+      "OverviewResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "components_total": {
+            "title": "Components Total",
+            "type": "integer"
+          },
+          "incidents_by_status": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "Incidents By Status",
+            "type": "object"
+          },
+          "incidents_total": {
+            "title": "Incidents Total",
+            "type": "integer"
+          },
+          "machines_total": {
+            "title": "Machines Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "machines_total",
+          "components_total",
+          "incidents_total",
+          "incidents_by_status"
+        ],
+        "title": "OverviewResponse",
+        "type": "object"
+      },
+      "ProvenanceIndexItem": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence_id": {
+            "format": "uuid",
+            "title": "Evidence Id",
+            "type": "string"
+          },
+          "original_source_record_id": {
+            "title": "Original Source Record Id",
+            "type": "string"
+          },
+          "provenance": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "title": "Provenance",
+            "type": "object"
+          },
+          "source_classification": {
+            "$ref": "#/components/schemas/EvidenceBundleSourceClassification"
+          },
+          "source_type": {
+            "title": "Source Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "evidence_id",
+          "source_classification",
+          "source_type",
+          "original_source_record_id",
+          "provenance"
+        ],
+        "title": "ProvenanceIndexItem",
+        "type": "object"
+      },
+      "SemanticEnrichmentState": {
+        "enum": [
+          "AVAILABLE",
+          "DISABLED",
+          "UNAVAILABLE"
+        ],
+        "title": "SemanticEnrichmentState",
+        "type": "string"
+      },
+      "SemanticEnrichmentSummary": {
+        "additionalProperties": false,
+        "properties": {
+          "attempted": {
+            "title": "Attempted",
+            "type": "boolean"
+          },
+          "configured": {
+            "title": "Configured",
+            "type": "boolean"
+          },
+          "failure_reasons": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Failure Reasons",
+            "type": "array"
+          },
+          "selected_match_count": {
+            "minimum": 0.0,
+            "title": "Selected Match Count",
+            "type": "integer"
+          },
+          "state": {
+            "$ref": "#/components/schemas/SemanticEnrichmentState"
+          }
+        },
+        "required": [
+          "state",
+          "configured",
+          "attempted",
+          "selected_match_count"
+        ],
+        "title": "SemanticEnrichmentSummary",
+        "type": "object"
+      },
+      "SemanticHistoryFailure": {
+        "enum": [
+          "SEMANTIC_SEARCH_DISABLED",
+          "EMBEDDING_UNAVAILABLE",
+          "SEMANTIC_INDEX_UNAVAILABLE"
+        ],
+        "title": "SemanticHistoryFailure",
+        "type": "string"
+      },
+      "SemanticMatchType": {
+        "enum": [
+          "SEMANTIC_SIMILARITY"
+        ],
+        "title": "SemanticMatchType",
+        "type": "string"
+      },
+      "SemanticRetrievalMetadata": {
+        "additionalProperties": false,
+        "properties": {
+          "attempted": {
+            "title": "Attempted",
+            "type": "boolean"
+          },
+          "configured": {
+            "title": "Configured",
+            "type": "boolean"
+          },
+          "failed": {
+            "title": "Failed",
+            "type": "boolean"
+          },
+          "failures": {
+            "items": {
+              "$ref": "#/components/schemas/SemanticHistoryFailure"
+            },
+            "title": "Failures",
+            "type": "array"
+          },
+          "queried_primary_evidence_ids": {
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "title": "Queried Primary Evidence Ids",
+            "type": "array"
+          }
+        },
+        "required": [
+          "configured",
+          "attempted",
+          "failed"
+        ],
+        "title": "SemanticRetrievalMetadata",
+        "type": "object"
+      },
+      "SemanticSearchState": {
+        "enum": [
+          "AVAILABLE",
+          "DEGRADED",
+          "DISABLED"
+        ],
+        "title": "SemanticSearchState",
+        "type": "string"
+      },
+      "SyncAcknowledgement": {
+        "additionalProperties": false,
+        "properties": {
+          "acknowledgement_id": {
+            "format": "uuid",
+            "title": "Acknowledgement Id",
+            "type": "string"
+          },
+          "canonical_receipt_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Canonical Receipt Id"
+          },
+          "conflict_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Conflict Id"
+          },
+          "package_id": {
+            "format": "uuid",
+            "title": "Package Id",
+            "type": "string"
+          },
+          "received_at": {
+            "format": "date-time",
+            "title": "Received At",
+            "type": "string"
+          },
+          "report_revision": {
+            "minimum": 1.0,
+            "title": "Report Revision",
+            "type": "integer"
+          },
+          "schema_version": {
+            "title": "Schema Version",
+            "type": "string"
+          },
+          "session_id": {
+            "format": "uuid",
+            "title": "Session Id",
+            "type": "string"
+          },
+          "source_machine_id": {
+            "format": "uuid",
+            "title": "Source Machine Id",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/SyncAcknowledgementStatus"
+          }
+        },
+        "required": [
+          "schema_version",
+          "acknowledgement_id",
+          "package_id",
+          "source_machine_id",
+          "session_id",
+          "report_revision",
+          "status",
+          "received_at"
+        ],
+        "title": "SyncAcknowledgement",
+        "type": "object"
+      },
+      "SyncAcknowledgementStatus": {
+        "enum": [
+          "ACCEPTED",
+          "DUPLICATE",
+          "CONFLICT"
+        ],
+        "title": "SyncAcknowledgementStatus",
+        "type": "string"
+      },
+      "SyncConflictCollectionResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/SyncConflictItem"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "offset",
+          "limit"
+        ],
+        "title": "SyncConflictCollectionResponse",
+        "type": "object"
+      },
+      "SyncConflictItem": {
+        "additionalProperties": false,
+        "properties": {
+          "conflict_id": {
+            "format": "uuid",
+            "title": "Conflict Id",
+            "type": "string"
+          },
+          "conflict_type": {
+            "title": "Conflict Type",
+            "type": "string"
+          },
+          "detected_at": {
+            "format": "date-time",
+            "title": "Detected At",
+            "type": "string"
+          },
+          "existing_checksum": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Existing Checksum"
+          },
+          "existing_metadata": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "title": "Existing Metadata",
+            "type": "object"
+          },
+          "existing_receipt_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Existing Receipt Id"
+          },
+          "existing_report_revision": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Existing Report Revision"
+          },
+          "incoming_checksum": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Incoming Checksum"
+          },
+          "incoming_metadata": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "title": "Incoming Metadata",
+            "type": "object"
+          },
+          "incoming_package_id": {
+            "format": "uuid",
+            "title": "Incoming Package Id",
+            "type": "string"
+          },
+          "incoming_report_revision": {
+            "title": "Incoming Report Revision",
+            "type": "integer"
+          },
+          "resolution_notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Resolution Notes"
+          },
+          "resolution_status": {
+            "title": "Resolution Status",
+            "type": "string"
+          },
+          "resolved_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Resolved At"
+          },
+          "session_id": {
+            "format": "uuid",
+            "title": "Session Id",
+            "type": "string"
+          },
+          "source_machine_id": {
+            "format": "uuid",
+            "title": "Source Machine Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "conflict_id",
+          "source_machine_id",
+          "session_id",
+          "incoming_package_id",
+          "conflict_type",
+          "incoming_report_revision",
+          "incoming_metadata",
+          "existing_metadata",
+          "detected_at",
+          "resolution_status"
+        ],
+        "title": "SyncConflictItem",
+        "type": "object"
+      },
+      "SyncHealthResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "ai": {
+            "$ref": "#/components/schemas/OptionalCapabilityState"
+          },
+          "canonical_database": {
+            "default": "ok",
+            "title": "Canonical Database",
+            "type": "string"
+          },
+          "embeddings": {
+            "$ref": "#/components/schemas/OptionalCapabilityState"
+          },
+          "machines": {
+            "items": {
+              "$ref": "#/components/schemas/MachineSyncHealthItem"
+            },
+            "title": "Machines",
+            "type": "array"
+          },
+          "semantic": {
+            "$ref": "#/components/schemas/OptionalCapabilityState"
+          },
+          "stale_after_hours": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Stale After Hours"
+          },
+          "unresolved_conflicts": {
+            "title": "Unresolved Conflicts",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "machines",
+          "unresolved_conflicts",
+          "semantic",
+          "embeddings",
+          "ai"
+        ],
+        "title": "SyncHealthResponse",
+        "type": "object"
+      },
+      "ValidatedAIAnalysis": {
+        "additionalProperties": false,
+        "description": "Model output that has passed the independent deterministic guard.",
+        "properties": {
+          "claims": {
+            "items": {
+              "$ref": "#/components/schemas/AIClaim"
+            },
+            "title": "Claims",
+            "type": "array"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Limitations",
+            "type": "array"
+          },
+          "status": {
+            "const": "VALIDATED",
+            "default": "VALIDATED",
+            "title": "Status",
+            "type": "string"
+          },
+          "summary": {
+            "title": "Summary",
+            "type": "string"
+          }
+        },
+        "required": [
+          "summary",
+          "claims",
+          "limitations"
+        ],
+        "title": "ValidatedAIAnalysis",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      },
+      "VerificationContextItem": {
+        "additionalProperties": false,
+        "properties": {
+          "completed_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Completed At"
+          },
+          "evidence_ids": {
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "title": "Evidence Ids",
+            "type": "array"
+          },
+          "result": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/VerificationRunResult"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "rule_identifier": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rule Identifier"
+          },
+          "rule_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rule Name"
+          },
+          "rule_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/VerificationRuleType"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "started_at": {
+            "format": "date-time",
+            "title": "Started At",
+            "type": "string"
+          },
+          "verification_rule_id": {
+            "format": "uuid",
+            "title": "Verification Rule Id",
+            "type": "string"
+          },
+          "verification_run_id": {
+            "format": "uuid",
+            "title": "Verification Run Id",
+            "type": "string"
+          },
+          "window_ends_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Window Ends At"
+          },
+          "window_minutes": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Window Minutes"
+          }
+        },
+        "required": [
+          "verification_run_id",
+          "verification_rule_id",
+          "rule_identifier",
+          "rule_name",
+          "rule_type",
+          "window_minutes",
+          "result",
+          "started_at",
+          "window_ends_at",
+          "completed_at"
+        ],
+        "title": "VerificationContextItem",
+        "type": "object"
+      },
+      "VerificationRuleType": {
+        "enum": [
+          "NO_EVENT"
+        ],
+        "title": "VerificationRuleType",
+        "type": "string"
+      },
+      "VerificationRunResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "completed_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Completed At"
+          },
+          "evidence_event_ids": {
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "title": "Evidence Event Ids",
+            "type": "array"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "incident_id": {
+            "format": "uuid",
+            "title": "Incident Id",
+            "type": "string"
+          },
+          "original_timestamp": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Original Timestamp"
+          },
+          "outcome_payload": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "title": "Outcome Payload",
+            "type": "object"
+          },
+          "result": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/VerificationRunResult"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "rule_identifier": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rule Identifier"
+          },
+          "rule_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rule Name"
+          },
+          "rule_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/VerificationRuleType"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "session_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Session Id"
+          },
+          "source_machine_id": {
+            "format": "uuid",
+            "title": "Source Machine Id",
+            "type": "string"
+          },
+          "source_report_revision": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Report Revision"
+          },
+          "started_at": {
+            "format": "date-time",
+            "title": "Started At",
+            "type": "string"
+          },
+          "verification_rule_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Verification Rule Id"
+          },
+          "window_ends_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Window Ends At"
+          },
+          "window_minutes": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Window Minutes"
+          }
+        },
+        "required": [
+          "id",
+          "incident_id",
+          "source_machine_id",
+          "started_at",
+          "outcome_payload",
+          "evidence_event_ids"
+        ],
+        "title": "VerificationRunResponse",
+        "type": "object"
+      },
+      "VerificationRunResult": {
+        "enum": [
+          "SUCCEEDED",
+          "RECURRENCE_DETECTED"
+        ],
+        "title": "VerificationRunResult",
+        "type": "string"
+      },
+      "VerificationRunsResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "incident_id": {
+            "format": "uuid",
+            "title": "Incident Id",
+            "type": "string"
+          },
+          "runs": {
+            "items": {
+              "$ref": "#/components/schemas/VerificationRunResponse"
+            },
+            "title": "Runs",
+            "type": "array"
+          }
+        },
+        "required": [
+          "incident_id",
+          "runs"
+        ],
+        "title": "VerificationRunsResponse",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "title": "MINE-TRACE Global Backend",
+    "version": "0.3.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/v1/ai/analyze": {
+      "post": {
+        "operationId": "analyze_fleet_api_v1_ai_analyze_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FleetAIAnalysisRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FleetAIAnalysisResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Analyze Fleet",
+        "tags": [
+          "AI Insights"
+        ]
+      }
+    },
+    "/api/v1/analytics/incidents/by-site": {
+      "get": {
+        "operationId": "incidents_by_site_api_v1_analytics_incidents_by_site_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalyticsBucketsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Incidents By Site",
+        "tags": [
+          "Analytics"
+        ]
+      }
+    },
+    "/api/v1/analytics/incidents/by-status": {
+      "get": {
+        "operationId": "incidents_by_status_api_v1_analytics_incidents_by_status_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalyticsBucketsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Incidents By Status",
+        "tags": [
+          "Analytics"
+        ]
+      }
+    },
+    "/api/v1/analytics/incidents/trend": {
+      "get": {
+        "operationId": "incident_trend_api_v1_analytics_incidents_trend_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalyticsTrendResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Incident Trend",
+        "tags": [
+          "Analytics"
+        ]
+      }
+    },
+    "/api/v1/analytics/summary": {
+      "get": {
+        "operationId": "analytics_summary_api_v1_analytics_summary_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalyticsSummaryResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Analytics Summary",
+        "tags": [
+          "Analytics"
+        ]
+      }
+    },
+    "/api/v1/components/{component_id}": {
+      "get": {
+        "operationId": "get_component_api_v1_components__component_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "component_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Component Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComponentResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Component",
+        "tags": [
+          "Components"
+        ]
+      }
+    },
+    "/api/v1/fleet/overview": {
+      "get": {
+        "operationId": "fleet_overview_api_v1_fleet_overview_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "recent_session_limit",
+            "required": false,
+            "schema": {
+              "default": 10,
+              "maximum": 100,
+              "minimum": 1,
+              "title": "Recent Session Limit",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FleetOverviewResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Fleet Overview",
+        "tags": [
+          "Fleet"
+        ]
+      }
+    },
+    "/api/v1/health": {
+      "get": {
+        "operationId": "health_api_v1_health_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Health",
+        "tags": [
+          "Health"
+        ]
+      }
+    },
+    "/api/v1/health/capabilities": {
+      "get": {
+        "description": "Report optional ML/AI operational readiness without affecting core health.",
+        "operationId": "ml_ai_capabilities_api_v1_health_capabilities_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MLAICapabilityReport"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Ml Ai Capabilities",
+        "tags": [
+          "Health"
+        ]
+      }
+    },
+    "/api/v1/incidents": {
+      "get": {
+        "operationId": "list_incidents_api_v1_incidents_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "maximum": 200,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "machine",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Machine"
+            }
+          },
+          {
+            "in": "query",
+            "name": "component",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Component"
+            }
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Start"
+            }
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "End"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/IncidentStatus"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            }
+          },
+          {
+            "in": "query",
+            "name": "state",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/IncidentStatus"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "State"
+            }
+          },
+          {
+            "in": "query",
+            "name": "model",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Model"
+            }
+          },
+          {
+            "in": "query",
+            "name": "site",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Site"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FleetIncidentCollectionResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Incidents",
+        "tags": [
+          "Incidents"
+        ]
+      }
+    },
+    "/api/v1/incidents/{incident_id}": {
+      "get": {
+        "operationId": "get_incident_api_v1_incidents__incident_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "incident_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Incident Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncidentDetailResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Incident",
+        "tags": [
+          "Incidents"
+        ]
+      }
+    },
+    "/api/v1/incidents/{incident_id}/ai-analysis": {
+      "post": {
+        "description": "Run optional advisory analysis only after an explicit POST action.",
+        "operationId": "analyze_incident_evidence_api_v1_incidents__incident_id__ai_analysis_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "incident_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Incident Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AIAnalysisResult"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Analyze Incident Evidence",
+        "tags": [
+          "AI Insights"
+        ]
+      }
+    },
+    "/api/v1/incidents/{incident_id}/audit": {
+      "get": {
+        "operationId": "get_incident_audit_api_v1_incidents__incident_id__audit_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "incident_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Incident Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncidentAuditResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Incident Audit",
+        "tags": [
+          "Incidents"
+        ]
+      }
+    },
+    "/api/v1/incidents/{incident_id}/evidence": {
+      "get": {
+        "operationId": "get_incident_evidence_api_v1_incidents__incident_id__evidence_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "incident_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Incident Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncidentEvidenceResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Incident Evidence",
+        "tags": [
+          "Incidents"
+        ]
+      }
+    },
+    "/api/v1/incidents/{incident_id}/evidence-bundle": {
+      "get": {
+        "operationId": "get_incident_evidence_bundle_api_v1_incidents__incident_id__evidence_bundle_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "incident_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Incident Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvidenceBundleResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Incident Evidence Bundle",
+        "tags": [
+          "Evidence Bundle"
+        ]
+      }
+    },
+    "/api/v1/incidents/{incident_id}/maintenance-actions": {
+      "get": {
+        "operationId": "get_incident_maintenance_actions_api_v1_incidents__incident_id__maintenance_actions_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "incident_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Incident Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncidentMaintenanceActionsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Incident Maintenance Actions",
+        "tags": [
+          "Incidents"
+        ]
+      }
+    },
+    "/api/v1/incidents/{incident_id}/verifications": {
+      "get": {
+        "operationId": "list_verifications_api_v1_incidents__incident_id__verifications_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "incident_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Incident Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerificationRunsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Verifications",
+        "tags": [
+          "Verification"
+        ]
+      }
+    },
+    "/api/v1/machines": {
+      "get": {
+        "operationId": "list_machines_api_v1_machines_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "maximum": 200,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Search"
+            }
+          },
+          {
+            "in": "query",
+            "name": "site",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Site"
+            }
+          },
+          {
+            "in": "query",
+            "name": "machine_type",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Machine Type"
+            }
+          },
+          {
+            "in": "query",
+            "name": "model",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Model"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FleetMachineCollectionResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Machines",
+        "tags": [
+          "Machines"
+        ]
+      }
+    },
+    "/api/v1/machines/{machine_id}": {
+      "get": {
+        "operationId": "get_machine_api_v1_machines__machine_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "machine_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Machine Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FleetMachineItem"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Machine",
+        "tags": [
+          "Machines"
+        ]
+      }
+    },
+    "/api/v1/machines/{machine_id}/components": {
+      "get": {
+        "operationId": "list_machine_components_api_v1_machines__machine_id__components_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "machine_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Machine Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineComponentsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Machine Components",
+        "tags": [
+          "Machines"
+        ]
+      }
+    },
+    "/api/v1/machines/{machine_id}/incidents": {
+      "get": {
+        "operationId": "list_machine_incidents_api_v1_machines__machine_id__incidents_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "machine_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Machine Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "maximum": 200,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FleetIncidentCollectionResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Machine Incidents",
+        "tags": [
+          "Machines"
+        ]
+      }
+    },
+    "/api/v1/machines/{machine_id}/sessions": {
+      "get": {
+        "operationId": "list_machine_sessions_api_v1_machines__machine_id__sessions_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "machine_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Machine Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "maximum": 200,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineSessionsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Machine Sessions",
+        "tags": [
+          "Machines"
+        ]
+      }
+    },
+    "/api/v1/maintenance-queue": {
+      "get": {
+        "operationId": "maintenance_queue_api_v1_maintenance_queue_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "maximum": 200,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaintenanceQueueResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Maintenance Queue",
+        "tags": [
+          "Maintenance"
+        ]
+      }
+    },
+    "/api/v1/overview": {
+      "get": {
+        "operationId": "get_overview_api_v1_overview_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OverviewResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Overview",
+        "tags": [
+          "Overview"
+        ]
+      }
+    },
+    "/api/v1/search/semantic": {
+      "post": {
+        "operationId": "semantic_search_api_v1_search_semantic_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FleetSemanticSearchRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FleetSemanticSearchResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Semantic Search",
+        "tags": [
+          "Semantic Search"
+        ]
+      }
+    },
+    "/api/v1/sync/conflicts": {
+      "get": {
+        "operationId": "sync_conflicts_api_v1_sync_conflicts_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "maximum": 200,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "unresolved_only",
+            "required": false,
+            "schema": {
+              "default": false,
+              "title": "Unresolved Only",
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SyncConflictCollectionResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Sync Conflicts",
+        "tags": [
+          "Synchronization"
+        ]
+      }
+    },
+    "/api/v1/sync/health": {
+      "get": {
+        "operationId": "sync_health_api_v1_sync_health_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "stale_after_hours",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "exclusiveMinimum": 0.0,
+                  "maximum": 8760.0,
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Stale After Hours"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SyncHealthResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Sync Health",
+        "tags": [
+          "Synchronization"
+        ]
+      }
+    },
+    "/api/v1/sync/packages": {
+      "post": {
+        "operationId": "ingest_sync_package_api_v1_sync_packages_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "title": "Payload",
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SyncAcknowledgement"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Ingest Sync Package",
+        "tags": [
+          "Synchronization"
+        ]
+      }
+    },
+    "/api/v1/verifications/{run_id}": {
+      "get": {
+        "operationId": "get_verification_api_v1_verifications__run_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Run Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerificationRunResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Verification",
+        "tags": [
+          "Verification"
+        ]
+      }
+    },
+    "/health": {
+      "get": {
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Health",
+        "tags": [
+          "Health"
+        ]
+      }
+    },
+    "/health/capabilities": {
+      "get": {
+        "description": "Report optional ML/AI operational readiness without affecting core health.",
+        "operationId": "ml_ai_capabilities_health_capabilities_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MLAICapabilityReport"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Ml Ai Capabilities",
+        "tags": [
+          "Health"
+        ]
+      }
+    }
+  },
+  "tags": [
+    {
+      "description": "Core application and canonical PostgreSQL health.",
+      "name": "Health"
+    },
+    {
+      "description": "Authoritative PostgreSQL-derived fleet counts.",
+      "name": "Overview"
+    },
+    {
+      "description": "Controlled machine identity reads.",
+      "name": "Machines"
+    },
+    {
+      "description": "Controlled component identity reads.",
+      "name": "Components"
+    },
+    {
+      "description": "Exact relational fleet overview and synchronized session reads.",
+      "name": "Fleet"
+    },
+    {
+      "description": "Deterministic queue derived only from synchronized relational facts.",
+      "name": "Maintenance"
+    },
+    {
+      "description": "Counts, rates and trends computed from canonical PostgreSQL.",
+      "name": "Analytics"
+    },
+    {
+      "description": "Synchronized fleet incident reads and evidence history.",
+      "name": "Incidents"
+    },
+    {
+      "description": "Read-only verification outcomes synchronized from edge machines.",
+      "name": "Verification"
+    },
+    {
+      "description": "Deterministic evidence-bundle read model.",
+      "name": "Evidence Bundle"
+    },
+    {
+      "description": "Explicit read-only Groq fleet analysis grounded in canonical evidence.",
+      "name": "AI Insights"
+    },
+    {
+      "description": "Fleet-wide semantic similarity retrieval with PostgreSQL hydration.",
+      "name": "Semantic Search"
+    },
+    {
+      "description": "Authenticated transactional edge-to-global package ingestion.",
+      "name": "Synchronization"
+    }
+  ]
+}

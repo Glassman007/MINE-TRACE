@@ -1,0 +1,107 @@
+{
+  "$defs": {
+    "IncidentStatus": {
+      "enum": [
+        "OPEN",
+        "VERIFYING",
+        "VERIFIED",
+        "RECURRED"
+      ],
+      "title": "IncidentStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Canonical incident state carried with one immutable session snapshot.",
+  "properties": {
+    "component_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Component Id"
+    },
+    "first_seen": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "First Seen"
+    },
+    "incident_id": {
+      "format": "uuid",
+      "title": "Incident Id",
+      "type": "string"
+    },
+    "last_seen": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Last Seen"
+    },
+    "machine_id": {
+      "format": "uuid",
+      "title": "Machine Id",
+      "type": "string"
+    },
+    "occurrence_count": {
+      "minimum": 0,
+      "title": "Occurrence Count",
+      "type": "integer"
+    },
+    "report_revision": {
+      "minimum": 1,
+      "title": "Report Revision",
+      "type": "integer"
+    },
+    "schema_version": {
+      "pattern": "^[1-9]\\d*\\.\\d+$",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "severity": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Severity"
+    },
+    "state": {
+      "$ref": "#/$defs/IncidentStatus"
+    }
+  },
+  "required": [
+    "schema_version",
+    "incident_id",
+    "machine_id",
+    "state",
+    "occurrence_count",
+    "report_revision"
+  ],
+  "title": "IncidentUpdate",
+  "type": "object"
+}

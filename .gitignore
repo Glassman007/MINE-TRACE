@@ -1,0 +1,229 @@
+# ============================================================
+# MINE-TRACE — repository-wide .gitignore
+# Covers: local/global Python backends + local/global Vite frontends
+# ============================================================
+
+# ------------------------------------------------------------
+# 1. SECRETS / LOCAL CONFIG
+# Keep real credentials out of Git. Commit only safe examples.
+# ------------------------------------------------------------
+.env
+.env.*
+*.env
+*.env.*
+!.env.example
+!.env.*.example
+
+.envrc
+.direnv/
+
+secrets/
+.secrets/
+credentials/
+.credentials/
+
+*.secret
+*.secrets
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+
+service-account*.json
+service_account*.json
+*credentials*.json
+
+.npmrc
+.pypirc
+pip.conf
+
+# Local-only config overrides
+*.local
+*.local.json
+*.local.yml
+*.local.yaml
+config.local.*
+settings.local.*
+
+# NOTE:
+# .gitignore cannot protect secrets hardcoded inside tracked .py/.ts/.tsx files.
+# GROQ/Qdrant/DB credentials belong in backend .env files only.
+# Never expose secret keys through VITE_* frontend variables.
+
+
+# ------------------------------------------------------------
+# 2. PYTHON VIRTUAL ENVIRONMENTS
+# ------------------------------------------------------------
+.venv/
+venv/
+env/
+ENV/
+
+
+# ------------------------------------------------------------
+# 3. PYTHON CACHE / BYTECODE
+# ------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+.python-version.local
+
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.pyright/
+.hypothesis/
+.tox/
+.nox/
+
+.dmypy.json
+dmypy.json
+
+
+# ------------------------------------------------------------
+# 4. PYTHON COVERAGE / TEST OUTPUT
+# ------------------------------------------------------------
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+coverage.json
+junit.xml
+.pytestdebug.log
+
+# Generated semantic benchmark output.
+# Keep benchmark source datasets and selected-model metadata committed.
+**/benchmarks/semantic_quality/results/
+
+
+# ------------------------------------------------------------
+# 5. PYTHON BUILD / PACKAGING
+# ------------------------------------------------------------
+build/
+dist/
+*.egg-info/
+.eggs/
+wheels/
+pip-wheel-metadata/
+MANIFEST
+
+
+# ------------------------------------------------------------
+# 6. NODE / VITE / TYPESCRIPT
+# package-lock.json IS intentionally committed.
+# ------------------------------------------------------------
+node_modules/
+.vite/
+.vite-cache/
+coverage/
+
+*.tsbuildinfo
+.eslintcache
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+
+# ------------------------------------------------------------
+# 7. LOCAL DATABASES
+# Local backend uses SQLite; global backend uses PostgreSQL.
+# Never commit live/local DB state.
+# ------------------------------------------------------------
+*.db
+*.db-shm
+*.db-wal
+*.db-journal
+
+*.sqlite
+*.sqlite3
+*.sqlite-shm
+*.sqlite-wal
+*.sqlite-journal
+
+
+# ------------------------------------------------------------
+# 8. QDRANT RUNTIME DATA
+# Do NOT ignore app/integrations/qdrant — that is source code.
+# These are only local vector-store runtime directories.
+# ------------------------------------------------------------
+demo-qdrant/
+qdrant_storage/
+qdrant-storage/
+qdrant_data/
+qdrant-data/
+.qdrant/
+
+
+# ------------------------------------------------------------
+# 9. FASTEMBED LOCAL MODEL CACHE
+# l_back stores the offline FastEmbed download under
+# models/fastembed/. Keep its README, ignore downloaded weights/cache.
+# ------------------------------------------------------------
+**/models/fastembed/*
+!**/models/fastembed/README.md
+
+
+# ------------------------------------------------------------
+# 10. GENERIC CACHE / TEMP / RUNTIME FILES
+# ------------------------------------------------------------
+.cache/
+tmp/
+temp/
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*.pid
+
+logs/
+*.log
+
+
+# ------------------------------------------------------------
+# 11. IDE / EDITOR
+# ------------------------------------------------------------
+.vscode/
+.idea/
+*.code-workspace
+
+
+# ------------------------------------------------------------
+# 12. OS FILES
+# ------------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+
+# ------------------------------------------------------------
+# 13. LOCAL CERTIFICATE / AUTH MATERIAL
+# Public contract/schema files are NOT ignored.
+# ------------------------------------------------------------
+auth.json
+token.json
+tokens.json
+
+
+# ============================================================
+# INTENTIONALLY COMMITTED IN MINE-TRACE
+# ------------------------------------------------------------
+# .env.example
+# package-lock.json
+# contracts/
+# openapi/
+# src/api/generated/
+# benchmark datasets under benchmarks/semantic_quality/dataset/
+# selected_embedding_model.json
+# app/integrations/qdrant/
+# app/models/
+# frontend assets under public/
+# migrations/
+# ============================================================
+# Keep legacy OpenAI provider files local only
+/global/backend/app/integrations/llm/openai_provider.py
+/local/backend/app/integrations/llm/openai_provider.py

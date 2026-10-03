@@ -1,0 +1,171 @@
+{
+  "$defs": {
+    "IncidentEvidenceReference": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_id": {
+          "format": "uuid",
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "link_reason": {
+          "default": "synchronized_edge_relationship",
+          "minLength": 1,
+          "title": "Link Reason",
+          "type": "string"
+        },
+        "relationship_type": {
+          "default": "RELATED",
+          "enum": [
+            "RELATED",
+            "RECURRENCE",
+            "VERIFICATION"
+          ],
+          "title": "Relationship Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "evidence_id"
+      ],
+      "title": "IncidentEvidenceReference",
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "component_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Component Id"
+    },
+    "due_state": {
+      "anyOf": [
+        {
+          "maxLength": 64,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Due State"
+    },
+    "due_time": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Due Time"
+    },
+    "evidence_links": {
+      "items": {
+        "$ref": "#/$defs/IncidentEvidenceReference"
+      },
+      "title": "Evidence Links",
+      "type": "array"
+    },
+    "first_seen_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "First Seen At"
+    },
+    "incident_id": {
+      "format": "uuid",
+      "title": "Incident Id",
+      "type": "string"
+    },
+    "last_seen_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Last Seen At"
+    },
+    "machine_id": {
+      "format": "uuid",
+      "title": "Machine Id",
+      "type": "string"
+    },
+    "owner_ref": {
+      "anyOf": [
+        {
+          "maxLength": 255,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Owner Ref"
+    },
+    "session_id": {
+      "format": "uuid",
+      "title": "Session Id",
+      "type": "string"
+    },
+    "severity": {
+      "anyOf": [
+        {
+          "maxLength": 64,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Severity"
+    },
+    "status": {
+      "enum": [
+        "OPEN",
+        "VERIFYING",
+        "VERIFIED",
+        "RECURRED"
+      ],
+      "title": "Status",
+      "type": "string"
+    }
+  },
+  "required": [
+    "incident_id",
+    "machine_id",
+    "session_id",
+    "status"
+  ],
+  "title": "IncidentUpdate",
+  "type": "object",
+  "x-mine-trace-schema-version": "1.0.0"
+}
